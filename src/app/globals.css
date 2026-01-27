@@ -2,6 +2,7 @@
 @plugin "daisyui" {
   themes: corporate --default, forest --prefersdark;
 }
+
 @theme {
   --animate-star-movement-bottom: star-movement-bottom linear infinite alternate;
   --animate-star-movement-top: star-movement-top linear infinite alternate;
@@ -37,4 +38,12 @@
     transform: translate(100%, 0%);
     opacity: 0;
   }
+}
+
+.divider {
+  --divider-color: var(--color-teal-800);
+}
+
+.dg-scroll-lock {
+  overflow: hidden;
 }
