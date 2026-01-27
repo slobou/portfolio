@@ -165,8 +165,8 @@ export default function ProjectCard({
                   ? "bg-emerald-700 text-white shadow-lg scale-105"
                   : "bg-teal-700 text-white opacity-95"
                 : isHovered
-                ? "bg-emerald-700 text-white shadow-lg scale-105 font-semibold"
-                : "bg-teal-700/90 text-white opacity-95"
+                  ? "bg-emerald-700 text-white shadow-lg scale-105 font-semibold"
+                  : "bg-teal-700/90 text-white opacity-95"
             }`}
           >
             <div className="flex items-center gap-2">

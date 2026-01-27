@@ -10,7 +10,15 @@ export interface CloudinaryImageOptions {
   height?: number;
   quality?: number | "auto";
   format?: "auto" | "webp" | "avif" | "jpg" | "png";
-  crop?: "fill" | "fit" | "scale" | "crop" | "thumb";
+  crop?:
+    | "fill"
+    | "fit"
+    | "scale"
+    | "crop"
+    | "thumb"
+    | "auto"
+    | "lfill"
+    | "fill_pad";
   gravity?: "auto" | "face" | "center";
 }
 
@@ -30,7 +38,7 @@ export interface CloudinaryVideoOptions {
  */
 export function getCloudinaryImageUrl(
   src: string,
-  options: CloudinaryImageOptions = {}
+  options: CloudinaryImageOptions = {},
 ): string {
   const {
     width = 400,
@@ -41,15 +49,30 @@ export function getCloudinaryImageUrl(
     gravity = "auto",
   } = options;
 
-  return getCldImageUrl({
+  const imageOptions: any = {
     src,
     width,
     height,
     crop,
-    gravity,
     quality,
     format,
-  });
+  };
+
+  // Only add gravity if crop mode supports it
+  // Gravity is only valid for: fill, auto, crop, lfill, fill_pad, thumb
+  const gravitySupportedCrops = [
+    "fill",
+    "auto",
+    "crop",
+    "lfill",
+    "fill_pad",
+    "thumb",
+  ];
+  if (gravity && crop && gravitySupportedCrops.includes(crop)) {
+    imageOptions.gravity = gravity;
+  }
+
+  return getCldImageUrl(imageOptions);
 }
 
 /**
@@ -60,15 +83,9 @@ export function getCloudinaryImageUrl(
  */
 export function getCloudinaryVideoUrl(
   src: string,
-  options: CloudinaryVideoOptions = {}
+  options: CloudinaryVideoOptions = {},
 ): string {
-  const {
-    width,
-    height,
-    quality = "auto",
-    format = "auto",
-    crop,
-  } = options;
+  const { width, height, quality = "auto", format = "auto", crop } = options;
 
   // Build the options object for getCldVideoUrl
   const videoOptions: any = {
@@ -102,7 +119,7 @@ export function getCloudinaryVideoUrl(
  */
 export function getCloudinaryVideoPoster(
   src: string,
-  options: CloudinaryImageOptions = {}
+  options: CloudinaryImageOptions = {},
 ): string {
   const {
     width = 400,
@@ -163,7 +180,7 @@ export const GALLERY_IMAGES = {
  */
 export function getGalleryMediaUrls(
   publicId: string,
-  isVideo: boolean = false
+  isVideo: boolean = false,
 ) {
   if (isVideo) {
     return {

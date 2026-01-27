@@ -10,34 +10,13 @@ import {
   getCloudinaryVideoPoster,
   GALLERY_IMAGES,
 } from "@/utils/cloudinary";
+import { GALLERY_PUBLIC_IDS } from "@/utils/galleryMedia";
 
 export default function About() {
   const { isMobile } = useScreenSize();
 
-  // Cloudinary public IDs for your gallery images
-  // After uploading to Cloudinary, these should match your public IDs
-  // Format: "portfolio/gallery/[filename-without-extension]"
-  const cloudinaryPublicIds = {
-    images: [
-      "Photo1_pqk84i",
-      "Photo2_hjcda4",
-      "Photo3_hbhocp",
-      "Photo4_nwc662",
-      "Photo5_bfswlp",
-      "Photo6_kvq8sq",
-      "Photo7_xnyis3",
-      "Photo8_jjcxvq",
-      "Photo9_ufmcac",
-      "Photo10_j9unv8",
-      "Photo11_ozulfy",
-      "Photo12_ksb437",
-      "Photo13_hvkysc",
-      "Photo14_sagrtm",
-      "Photo15_nfqkmk",
-      "2026sts_killr4",
-    ],
-    videos: ["Video1_bze9b2", "video2_sfwvss", "video3_yla2d5"],
-  };
+  // Use shared public IDs
+  const cloudinaryPublicIds = GALLERY_PUBLIC_IDS;
 
   // Generate optimized Cloudinary URLs with both thumbnails and full-size versions
   const images = useMemo(() => {
@@ -85,7 +64,10 @@ export default function About() {
     });
   }, [images]);
   return (
-    <div className="dark:bg-base-100 bg-white h-full xl:h-[90vh] flex flex-col items-center justify-center w-full">
+    <div
+      id="about"
+      className="dark:bg-base-100 bg-white h-full xl:h-[90vh] flex flex-col items-center justify-center w-full z-50"
+    >
       <div className="h-full w-full flex xl:flex-row flex-col flex-reverse items-center justify-center container xl:gap-20 2xl:gap-64">
         {/* Desktop Dome Gallery - Only render on desktop */}
         {!isMobile && (
@@ -94,7 +76,7 @@ export default function About() {
               images={images}
               overlayBlurColor="transparent"
               fit={0.7}
-              segments={22}
+              segments={27}
               fitBasis="auto"
               minRadius={300}
               maxRadius={700}

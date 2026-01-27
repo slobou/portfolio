@@ -5,7 +5,10 @@ import { projects } from "@/data/projects";
 
 export default function Projects() {
   return (
-    <div className="dark:bg-base-200 bg-white h-full xl:h-[90vh] flex flex-col items-center justify-center w-full py-12">
+    <div
+      id="projects"
+      className="dark:bg-base-200 bg-white h-full xl:h-[90vh] flex flex-col items-center justify-center w-full py-12 z-50"
+    >
       <div className="h-full w-full flex flex-col items-center justify-center container gap-8">
         {/* Header */}
         <div className="flex flex-row items-center justify-center gap-3">

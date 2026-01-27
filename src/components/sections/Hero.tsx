@@ -3,7 +3,10 @@ import RotatingText from "@/blocks/TextAnimations/RotatingText/RotatingText";
 
 export default function Hero() {
   return (
-    <div className="hero max-w-screen h-screen bg-radial from-[#1b4b4c] to-[#0d2a2b] flex items-center justify-center">
+    <div
+      id="hero"
+      className="hero max-w-screen h-screen bg-radial from-[#1b4b4c] to-[#0d2a2b] flex items-center justify-center z-50"
+    >
       <div className="hero-content w-full h-full flex flex-col items-center justify-center gap-12">
         <div className="avatar ">
           <div className="w-20 rounded-full">

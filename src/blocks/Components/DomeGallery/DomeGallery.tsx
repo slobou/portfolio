@@ -128,7 +128,7 @@ function buildItems(pool: MediaItem[], seg: number): ItemDef[] {
   }
   if (pool.length > totalSlots) {
     console.warn(
-      `[DomeGallery] Provided media count (${pool.length}) exceeds available tiles (${totalSlots}). Some media will not be shown.`
+      `[DomeGallery] Provided media count (${pool.length}) exceeds available tiles (${totalSlots}). Some media will not be shown.`,
     );
   }
 
@@ -159,7 +159,7 @@ function buildItems(pool: MediaItem[], seg: number): ItemDef[] {
 
   const usedMedia = Array.from(
     { length: totalSlots },
-    (_, i) => normalizedMedia[i % normalizedMedia.length]
+    (_, i) => normalizedMedia[i % normalizedMedia.length],
   );
 
   for (let i = 1; i < usedMedia.length; i++) {
@@ -189,7 +189,7 @@ function computeItemBaseRotation(
   offsetY: number,
   sizeX: number,
   sizeY: number,
-  segments: number
+  segments: number,
 ) {
   const unit = 360 / segments / 2;
   const rotateY = unit * (offsetX + (sizeX - 1) / 2);
@@ -262,11 +262,11 @@ export default function DomeGallery({
   useEffect(() => {
     const uniqueImages = new Set<string>();
     const uniqueVideos = new Set<string>();
-    
+
     images.forEach((img) => {
       const src = typeof img === "string" ? img : img.src;
       if (!src) return;
-      
+
       const isVideo = /\.(mp4|webm|ogg|mov|avi|mkv)$/i.test(src);
       if (isVideo) {
         uniqueVideos.add(src);
@@ -362,12 +362,12 @@ export default function DomeGallery({
       root.style.setProperty("--enlarge-radius", openedImageBorderRadius);
       root.style.setProperty(
         "--image-filter",
-        grayscale ? "grayscale(1)" : "none"
+        grayscale ? "grayscale(1)" : "none",
       );
       applyTransform(rotationRef.current.x, rotationRef.current.y);
 
       const enlargedOverlay = viewerRef.current?.querySelector(
-        ".enlarge"
+        ".enlarge",
       ) as HTMLElement;
       if (enlargedOverlay && frameRef.current && mainRef.current) {
         const frameR = frameRef.current.getBoundingClientRect();
@@ -447,7 +447,7 @@ export default function DomeGallery({
         const nextX = clamp(
           rotationRef.current.x - vY / 200,
           -maxVerticalRotationDeg,
-          maxVerticalRotationDeg
+          maxVerticalRotationDeg,
         );
         const nextY = wrapAngleSigned(rotationRef.current.y + vX / 200);
         rotationRef.current = { x: nextX, y: nextY };
@@ -457,7 +457,7 @@ export default function DomeGallery({
       stopInertia();
       inertiaRAF.current = requestAnimationFrame(step);
     },
-    [dragDampening, maxVerticalRotationDeg, stopInertia]
+    [dragDampening, maxVerticalRotationDeg, stopInertia],
   );
 
   useGesture(
@@ -476,7 +476,7 @@ export default function DomeGallery({
         startRotRef.current = { ...rotationRef.current };
         startPosRef.current = { x: evt.clientX, y: evt.clientY };
         const potential = (evt.target as Element).closest?.(
-          ".item__image"
+          ".item__image",
         ) as HTMLElement | null;
         tapTargetRef.current = potential || null;
       },
@@ -508,7 +508,7 @@ export default function DomeGallery({
         const nextX = clamp(
           startRotRef.current.x - dyTotal / dragSensitivity,
           -maxVerticalRotationDeg,
-          maxVerticalRotationDeg
+          maxVerticalRotationDeg,
         );
         const nextY = startRotRef.current.y + dxTotal / dragSensitivity;
 
@@ -567,7 +567,7 @@ export default function DomeGallery({
         }
       },
     },
-    { target: mainRef, eventOptions: { passive: false } }
+    { target: mainRef, eventOptions: { passive: false } },
   );
 
   useEffect(() => {
@@ -580,32 +580,36 @@ export default function DomeGallery({
       if (!el) return;
       const parent = el.parentElement as HTMLElement;
       const overlay = viewerRef.current?.querySelector(
-        ".enlarge"
+        ".enlarge",
       ) as HTMLElement | null;
       if (!overlay) return;
 
       const refDiv = parent.querySelector(
-        ".item__image--reference"
+        ".item__image--reference",
       ) as HTMLElement | null;
 
       const originalPos = originalTilePositionRef.current;
       if (!originalPos) {
         // Pause any video in the overlay before removing
-        const videoInOverlay = overlay.querySelector("video") as HTMLVideoElement | null;
+        const videoInOverlay = overlay.querySelector(
+          "video",
+        ) as HTMLVideoElement | null;
         if (videoInOverlay) {
           videoInOverlay.pause();
           videoInOverlay.muted = true;
           videoInOverlay.currentTime = 0;
         }
-        
+
         // Pause any video in the original tile element
-        const originalTileVideo = el.querySelector("video") as HTMLVideoElement | null;
+        const originalTileVideo = el.querySelector(
+          "video",
+        ) as HTMLVideoElement | null;
         if (originalTileVideo) {
           originalTileVideo.pause();
           originalTileVideo.muted = true;
           originalTileVideo.currentTime = 0;
         }
-        
+
         overlay.remove();
         if (refDiv) refDiv.remove();
         parent.style.setProperty("--rot-y-delta", `0deg`);
@@ -662,12 +666,12 @@ export default function DomeGallery({
           originalMedia.muted = true;
           originalMedia.currentTime = 0;
         }
-        
+
         const media = originalMedia.cloneNode() as
           | HTMLImageElement
           | HTMLVideoElement;
         media.style.cssText = "width: 100%; height: 100%; object-fit: cover;";
-        
+
         // Ensure cloned video is also paused and muted
         if (media instanceof HTMLVideoElement) {
           media.pause();
@@ -675,12 +679,14 @@ export default function DomeGallery({
           media.currentTime = 0;
           media.autoplay = false;
         }
-        
+
         animatingOverlay.appendChild(media);
       }
 
       // Pause any video in the original tile element before removing overlay
-      const originalTileVideo = el.querySelector("video") as HTMLVideoElement | null;
+      const originalTileVideo = el.querySelector(
+        "video",
+      ) as HTMLVideoElement | null;
       if (originalTileVideo) {
         originalTileVideo.pause();
         originalTileVideo.muted = true;
@@ -702,13 +708,15 @@ export default function DomeGallery({
 
       const cleanup = () => {
         // Pause any video in the animating overlay before removing
-        const videoInAnimating = animatingOverlay.querySelector("video") as HTMLVideoElement | null;
+        const videoInAnimating = animatingOverlay.querySelector(
+          "video",
+        ) as HTMLVideoElement | null;
         if (videoInAnimating) {
           videoInAnimating.pause();
           videoInAnimating.muted = true;
           videoInAnimating.currentTime = 0;
         }
-        
+
         animatingOverlay.remove();
         originalTilePositionRef.current = null;
 
@@ -783,7 +791,7 @@ export default function DomeGallery({
       offsetY,
       sizeX,
       sizeY,
-      segments
+      segments,
     );
     const parentY = normalizeAngle(parentRot.rotateY);
     const globalY = normalizeAngle(rotationRef.current.y);
@@ -834,8 +842,8 @@ export default function DomeGallery({
       video.style.cssText = `width:100%; height:100%; object-fit:cover; filter:${
         grayscale ? "grayscale(1)" : "none"
       };`;
-      video.controls = true; // Enable controls for opened videos
-      video.muted = false; // Unmute for opened videos
+      video.controls = false; // Enable controls for opened videos
+      video.muted = true; // Unmute for opened videos
       video.loop = true;
       video.playsInline = true;
       video.autoplay = true;
