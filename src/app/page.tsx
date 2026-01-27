@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import CardNav from "@/blocks/Components/CardNav/CardNav";
@@ -34,6 +34,14 @@ const menuItems = [
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const mediaUrls = getAllGalleryMediaUrls();
+
+  // Always start at the first section on load/reload (ignore hash from "View Work" etc.)
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (window.location.hash) {
+      history.replaceState(null, "", window.location.pathname);
+    }
+  }, []);
 
   return (
     <div className="h-screen font-[family-name:var(--font-geist-sans)]">

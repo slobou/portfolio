@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: corporate --default, forest --prefersdark;
+  themes:
+    corporate --default,
+    forest --prefersdark;
 }
 
 @theme {
@@ -38,6 +40,10 @@
     transform: translate(100%, 0%);
     opacity: 0;
   }
+}
+
+* {
+  scroll-behavior: smooth;
 }
 
 .divider {

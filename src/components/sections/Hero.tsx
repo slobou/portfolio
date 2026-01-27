@@ -41,15 +41,23 @@ export default function Hero() {
           </div>
         </div>
         <div className="flex flex-row items-center justify-center gap-3">
-          <StarBorder
-            as="button"
-            color="#00B557"
-            thickness={2}
-            className=" cursor-pointer font-medium"
-            innerClassName="btn btn-md xl:btn-lg bg-emerald-800 hover:bg-emerald-900 text-white hover:bg-emerald-900 border-0 font-medium text-base xl:text-lg"
+          <button
+            type="button"
+            onClick={() =>
+              document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
+            }
+            className="focus:outline-none border-0 bg-transparent p-0 cursor-pointer"
           >
-            View Work
-          </StarBorder>
+            <StarBorder
+              as="span"
+              color="#00B557"
+              thickness={2}
+              className="cursor-pointer font-medium"
+              innerClassName="btn btn-md xl:btn-lg bg-emerald-800 hover:bg-emerald-900 text-white hover:bg-emerald-900 border-0 font-medium text-base xl:text-lg"
+            >
+              View Work
+            </StarBorder>
+          </button>
           <a
             href="https://www.linkedin.com/in/santiago-lobo-ulloa/"
             target="_blank"
