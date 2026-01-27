@@ -6,7 +6,6 @@ import About from "@/components/sections/About";
 import CardNav from "@/blocks/Components/CardNav/CardNav";
 import Projects from "@/components/sections/Projects";
 import Footer from "@/components/sections/Footer";
-import ParallaxFooter from "@/components/sections/ParallaxFooter";
 import SplashScreen from "@/components/ui/SplashScreen";
 import { getAllGalleryMediaUrls } from "@/utils/galleryMedia";
 
@@ -62,7 +61,6 @@ export default function Home() {
         <About />
         <Projects />
         <Footer />
-        <ParallaxFooter />
       </main>
     </div>
   );
