@@ -4,6 +4,7 @@ import {
   Montserrat,
   Montserrat_Alternates,
 } from "next/font/google";
+import type { Metadata } from "next";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -26,6 +27,16 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+export const metadata: Metadata = {
+  title: "Santiago Lobo - Portfolio",
+  description: "Portfolio of Santiago Lobo - Software Developer and Leader",
+  openGraph: {
+    type: "website",
+    title: "Santiago Lobo - Portfolio",
+    description: "Portfolio of Santiago Lobo - Software Developer and Leader",
+  },
+};
 
 export default function RootLayout({
   children,

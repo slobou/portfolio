@@ -1,10 +1,19 @@
 import StarBorder from "@/blocks/StarBorder/StarBorder";
-import RotatingText from "../../blocks/TextAnimations/RotatingText/RotatingText";
+import RotatingText from "@/blocks/TextAnimations/RotatingText/RotatingText";
 
 export default function Hero() {
   return (
-    <div className="hero w-screen h-screen bg-radial from-[#1b4b4c] to-[#0d2a2b] flex items-center justify-center">
+    <div className="hero max-w-screen h-screen bg-radial from-[#1b4b4c] to-[#0d2a2b] flex items-center justify-center">
       <div className="hero-content w-full h-full flex flex-col items-center justify-center gap-12">
+        <div className="avatar ">
+          <div className="w-20 rounded-full">
+            <img
+              src="/assets/images/PhotoHero.jpg"
+              draggable={false}
+              alt="Profile"
+            />
+          </div>
+        </div>
         <div className="flex flex-col items-center justify-start gap-2 w-full text-center px-4">
           <h1 className="xl:text-5xl sm:text-4xl md:text-5xl text-3xl font-bold text-white text-center">
             Hello, I am
@@ -16,9 +25,9 @@ export default function Hero() {
               texts={[
                 "Santiago Lobo",
                 "a Software Developer",
-                "a leader",
-                "an innovator",
-                "an entrepreneur",
+                "a Leader",
+                "an Innovator",
+                "an Entrepreneur",
               ]}
               rotationInterval={3000}
               splitBy="characters"
@@ -34,12 +43,12 @@ export default function Hero() {
             color="#00B557"
             thickness={2}
             className=" cursor-pointer font-medium"
-            innerClassName="btn btn-md bg-emerald-800 hover:bg-emerald-900 text-white hover:bg-emerald-900 border-0 font-medium"
+            innerClassName="btn btn-md xl:btn-lg bg-emerald-800 hover:bg-emerald-900 text-white hover:bg-emerald-900 border-0 font-medium text-base xl:text-lg"
           >
-            View Projects
+            View Work
           </StarBorder>
-          <button className=" btn btn-md border-2 border-white/30 text-white bg-transparent hover:bg-white/10 font-medium">
-            Download Resume
+          <button className=" btn btn-md xl:btn-lg border-2 border-white/30 rounded-3xl text-white bg-transparent hover:bg-white/10 font-medium">
+            Let's Connect
           </button>
         </div>
       </div>

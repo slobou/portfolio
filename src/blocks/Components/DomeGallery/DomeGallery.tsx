@@ -12,6 +12,7 @@ type MediaItem =
       src: string;
       alt?: string;
       type?: "image" | "video";
+      fullSizeSrc?: string; // Optional full-size URL for when image is opened (e.g., Cloudinary full-size)
     };
 
 type DomeGalleryProps = {
@@ -42,6 +43,7 @@ type ItemDef = {
   y: number;
   sizeX: number;
   sizeY: number;
+  fullSizeSrc?: string; // Optional full-size URL for when image is opened
 };
 
 const DEFAULT_IMAGES: MediaItem[] = [
@@ -138,6 +140,7 @@ function buildItems(pool: MediaItem[], seg: number): ItemDef[] {
         src: media,
         alt: "",
         type: isVideo ? ("video" as const) : ("image" as const),
+        fullSizeSrc: undefined,
       };
     }
     return {
@@ -150,6 +153,7 @@ function buildItems(pool: MediaItem[], seg: number): ItemDef[] {
           const isVideo = /\.(mp4|webm|ogg|mov|avi|mkv)$/i.test(media.src);
           return isVideo ? ("video" as const) : ("image" as const);
         })(),
+      fullSizeSrc: media.fullSizeSrc,
     };
   });
 
@@ -176,6 +180,7 @@ function buildItems(pool: MediaItem[], seg: number): ItemDef[] {
     src: usedMedia[i].src,
     alt: usedMedia[i].alt,
     type: usedMedia[i].type,
+    fullSizeSrc: usedMedia[i].fullSizeSrc,
   }));
 }
 
@@ -809,7 +814,9 @@ export default function DomeGallery({
     }px; top:${frameR.top - mainR.top}px; width:${frameR.width}px; height:${
       frameR.height
     }px; opacity:0; z-index:30; will-change:transform,opacity; transform-origin:top left; transition:transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease; border-radius:${openedImageBorderRadius}; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.35);`;
+    // Use full-size URL if available, otherwise fall back to thumbnail
     const rawSrc =
+      parent.dataset.fullSizeSrc ||
       parent.dataset.src ||
       (el.querySelector("img, video") as HTMLImageElement | HTMLVideoElement)
         ?.src ||
@@ -827,11 +834,15 @@ export default function DomeGallery({
       video.style.cssText = `width:100%; height:100%; object-fit:cover; filter:${
         grayscale ? "grayscale(1)" : "none"
       };`;
-      video.controls = false;
-      video.muted = true;
+      video.controls = true; // Enable controls for opened videos
+      video.muted = false; // Unmute for opened videos
       video.loop = true;
       video.playsInline = true;
       video.autoplay = true;
+      video.preload = "auto";
+      video.onerror = () => {
+        console.error("Video playback error:", rawSrc);
+      };
       overlay.appendChild(video);
     } else {
       const img = document.createElement("img");
@@ -988,6 +999,7 @@ export default function DomeGallery({
                   data-src={it.src}
                   data-alt={it.alt}
                   data-type={it.type}
+                  data-full-size-src={it.fullSizeSrc}
                   data-offset-x={it.x}
                   data-offset-y={it.y}
                   data-size-x={it.sizeX}
@@ -1041,6 +1053,14 @@ export default function DomeGallery({
                         loop
                         playsInline
                         preload="metadata"
+                        onError={(e) => {
+                          console.error("Video load error:", it.src, e);
+                          const target = e.target as HTMLVideoElement;
+                          target.style.display = "none";
+                        }}
+                        onLoadedMetadata={() => {
+                          // Video loaded successfully
+                        }}
                       />
                     ) : (
                       <img

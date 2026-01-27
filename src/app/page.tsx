@@ -1,5 +1,7 @@
 import Hero from "@/components/sections/Hero";
-import CardNav from "../blocks/CardNav/CardNav";
+import About from "@/components/sections/About";
+import CardNav from "@/blocks/Components/CardNav/CardNav";
+import Projects from "@/components/sections/Projects";
 
 const menuItems = [
   {
@@ -24,10 +26,12 @@ const menuItems = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen font-[family-name:var(--font-geist-sans)]">
-      <main>
-        <CardNav className="" items={menuItems} ease="power3.out" />
+    <div className="h-screen font-[family-name:var(--font-geist-sans)]">
+      <main className="flex flex-col gap-12 xl:gap-0">
+        <CardNav className="fixed" items={menuItems} ease="power3.out" />
         <Hero />
+        <About />
+        <Projects />
       </main>
     </div>
   );

@@ -4,48 +4,85 @@ import DomeGallery from "@/blocks/Components/DomeGallery/DomeGallery";
 import CircularGallery from "@/blocks/Components/CircularGallery/CircularGallery";
 import { useScreenSize } from "@/hooks/useScreenSize";
 import { useMemo } from "react";
+import {
+  getCloudinaryImageUrl,
+  getCloudinaryVideoUrl,
+  getCloudinaryVideoPoster,
+  GALLERY_IMAGES,
+} from "@/utils/cloudinary";
 
 export default function About() {
   const { isMobile } = useScreenSize();
 
-  const images = [
-    "/assets/images/gallery/Photo1.jpg",
-    "/assets/images/gallery/Photo2.JPG",
-    "/assets/images/gallery/Photo3.JPG",
-    "/assets/images/gallery/Photo4.JPG",
-    "/assets/images/gallery/Photo5.JPG",
-    "/assets/images/gallery/Photo6.JPG",
-    "/assets/images/gallery/Photo7.jpeg",
-    "/assets/images/gallery/Photo8.jpeg",
-    "/assets/images/gallery/Photo9.jpeg",
-    "/assets/images/gallery/Photo9.2.jpeg",
-    "/assets/images/gallery/Photo9.3.jpeg",
-    "/assets/images/gallery/Photo10.jpeg",
-    "/assets/images/gallery/Photo10.png",
-    "/assets/images/gallery/Photo11.jpeg",
-    "/assets/images/gallery/Photo12.jpg",
-    "/assets/images/gallery/Photo13.PNG",
-    "/assets/images/gallery/Photo14.PNG",
-    "/assets/images/gallery/Photo15.jpg",
-    "/assets/images/gallery/2026sts.jpeg",
-    "/assets/images/gallery/Video1.webm",
-    "/assets/images/gallery/video2.webm",
-    "/assets/images/gallery/video3.webm",
-  ];
+  // Cloudinary public IDs for your gallery images
+  // After uploading to Cloudinary, these should match your public IDs
+  // Format: "portfolio/gallery/[filename-without-extension]"
+  const cloudinaryPublicIds = {
+    images: [
+      "Photo1_pqk84i",
+      "Photo2_hjcda4",
+      "Photo3_hbhocp",
+      "Photo4_nwc662",
+      "Photo5_bfswlp",
+      "Photo6_kvq8sq",
+      "Photo7_xnyis3",
+      "Photo8_jjcxvq",
+      "Photo9_ufmcac",
+      "Photo10_j9unv8",
+      "Photo11_ozulfy",
+      "Photo12_ksb437",
+      "Photo13_hvkysc",
+      "Photo14_sagrtm",
+      "Photo15_nfqkmk",
+      "2026sts_killr4",
+    ],
+    videos: ["Video1_bze9b2", "video2_sfwvss", "video3_yla2d5"],
+  };
+
+  // Generate optimized Cloudinary URLs with both thumbnails and full-size versions
+  const images = useMemo(() => {
+    const imageItems = cloudinaryPublicIds.images.map((id) => ({
+      src: getCloudinaryImageUrl(id, GALLERY_IMAGES.thumbnail), // Thumbnail for gallery tiles
+      fullSizeSrc: getCloudinaryImageUrl(id, GALLERY_IMAGES.fullSize), // Full-size for opened view
+      alt: `Gallery photo ${id.split("/").pop()}`,
+      type: "image" as const,
+    }));
+
+    const videoItems = cloudinaryPublicIds.videos.map((id) => ({
+      // For gallery tiles: use video URL with small size for thumbnail preview
+      // The browser will show the first frame automatically
+      src: getCloudinaryVideoUrl(id, {
+        width: 400,
+        height: 400,
+        quality: "auto",
+        format: "auto", // Let Cloudinary choose the best format
+      }),
+      // For opened view: use video URL without size constraints for full quality playback
+      fullSizeSrc: getCloudinaryVideoUrl(id, {
+        quality: "auto",
+        format: "auto", // Let Cloudinary choose the best format
+      }),
+      alt: `Gallery video ${id.split("_")[0]}`,
+      type: "video" as const,
+    }));
+
+    return [...imageItems, ...videoItems];
+  }, []);
 
   // Filter out videos for mobile gallery and memoize to prevent unnecessary recalculations
+  // CircularGallery expects strings, so we extract the src from image objects
   const galleryItems = useMemo(() => {
-    const imageOnlyFiles = images.filter(
-      (image) =>
-        !image.includes(".webm") &&
-        !image.includes(".mp4") &&
-        !image.includes(".mov"),
+    const imageOnlyItems = images.filter(
+      (item) => typeof item === "object" && item.type === "image",
     );
 
-    return imageOnlyFiles.map((image, index) => ({
-      image,
-      text: `Photo ${index + 1}`,
-    }));
+    return imageOnlyItems.map((item, index) => {
+      const src = typeof item === "string" ? item : item.src;
+      return {
+        image: src,
+        text: `Photo ${index + 1}`,
+      };
+    });
   }, [images]);
   return (
     <div className="dark:bg-base-100 bg-white h-full xl:h-[90vh] flex flex-col items-center justify-center w-full">
