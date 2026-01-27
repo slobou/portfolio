@@ -49,7 +49,15 @@ export function getCloudinaryImageUrl(
     gravity = "auto",
   } = options;
 
-  const imageOptions: any = {
+  const imageOptions: {
+    src: string;
+    width: number;
+    height: number;
+    crop: string;
+    quality: string | number;
+    format: string;
+    gravity?: string;
+  } = {
     src,
     width,
     height,
@@ -58,8 +66,6 @@ export function getCloudinaryImageUrl(
     format,
   };
 
-  // Only add gravity if crop mode supports it
-  // Gravity is only valid for: fill, auto, crop, lfill, fill_pad, thumb
   const gravitySupportedCrops = [
     "fill",
     "auto",
@@ -72,7 +78,7 @@ export function getCloudinaryImageUrl(
     imageOptions.gravity = gravity;
   }
 
-  return getCldImageUrl(imageOptions);
+  return getCldImageUrl(imageOptions as Parameters<typeof getCldImageUrl>[0]);
 }
 
 /**
@@ -87,12 +93,7 @@ export function getCloudinaryVideoUrl(
 ): string {
   const { width, height, quality = "auto", format = "auto", crop } = options;
 
-  // Build the options object for getCldVideoUrl
-  const videoOptions: any = {
-    src,
-  };
-
-  // Add optional parameters only if they're defined
+  const videoOptions: Record<string, unknown> = { src };
   if (width !== undefined) videoOptions.width = width;
   if (height !== undefined) videoOptions.height = height;
   if (quality) videoOptions.quality = quality;
@@ -100,10 +101,9 @@ export function getCloudinaryVideoUrl(
   if (crop) videoOptions.crop = crop;
 
   try {
-    return getCldVideoUrl(videoOptions);
+    return getCldVideoUrl(videoOptions as Parameters<typeof getCldVideoUrl>[0]);
   } catch (error) {
     console.error("Error generating Cloudinary video URL:", error);
-    // Fallback: return a basic Cloudinary video URL
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
     if (!cloudName) return "";
     return `https://res.cloudinary.com/${cloudName}/video/upload/${src}`;
@@ -112,7 +112,6 @@ export function getCloudinaryVideoUrl(
 
 /**
  * Generate a Cloudinary video poster/thumbnail image URL
- * Extracts a frame from the video to use as a thumbnail
  * @param src - The public ID of the video in Cloudinary
  * @param options - Transformation options for the poster image
  * @returns Optimized Cloudinary image URL (poster frame from video)
@@ -130,16 +129,13 @@ export function getCloudinaryVideoPoster(
     gravity = "auto",
   } = options;
 
-  // For video posters, we use the video public ID but request it as an image
-  // Cloudinary automatically extracts a frame from the video
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
   if (!cloudName) {
     console.error("NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME is not defined");
     return "";
   }
 
-  // Build transformation string manually for video poster
-  const transformations = [];
+  const transformations: string[] = [];
   if (crop) transformations.push(`c_${crop}`);
   if (gravity && crop === "fill") transformations.push(`g_${gravity}`);
   if (width) transformations.push(`w_${width}`);
@@ -155,7 +151,6 @@ export function getCloudinaryVideoPoster(
  * Gallery image configurations with optimized settings
  */
 export const GALLERY_IMAGES = {
-  // Thumbnail size for gallery tiles (small, fast loading)
   thumbnail: {
     width: 400,
     height: 400,
@@ -164,7 +159,6 @@ export const GALLERY_IMAGES = {
     crop: "fill" as const,
     gravity: "auto" as const,
   },
-  // Full size for opened/enlarged view (high quality)
   fullSize: {
     width: 1200,
     height: 1200,
@@ -176,7 +170,6 @@ export const GALLERY_IMAGES = {
 
 /**
  * Get both thumbnail and full-size URLs for a media item
- * Useful for galleries that need to load thumbnails first, then full images
  */
 export function getGalleryMediaUrls(
   publicId: string,
@@ -204,3 +197,24 @@ export function getGalleryMediaUrls(
     fullSize: getCloudinaryImageUrl(publicId, GALLERY_IMAGES.fullSize),
   };
 }
+
+/**
+ * Generate a Cloudinary URL for raw files (PDF, etc.)
+ * @param publicId - The public ID of the file in Cloudinary
+ * @param options.asAttachment - If true, adds fl_attachment so the file downloads
+ */
+export function getCloudinaryRawUrl(
+  publicId: string,
+  options?: { asAttachment?: boolean },
+): string {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  if (!cloudName) {
+    console.error("NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME is not defined");
+    return "";
+  }
+  const prefix = options?.asAttachment ? "fl_attachment/" : "";
+  return `https://res.cloudinary.com/${cloudName}/raw/upload/${prefix}${publicId}`;
+}
+
+/** Public ID for resume PDF in Cloudinary – use when serving resume from Cloudinary */
+export const RESUME_PUBLIC_ID = "portfolio/resume";

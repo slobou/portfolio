@@ -50,9 +50,14 @@ export default function Hero() {
           >
             View Work
           </StarBorder>
-          <button className=" btn btn-md xl:btn-lg border-2 border-white/30 rounded-3xl text-white bg-transparent hover:bg-white/10 font-medium">
+          <a
+            href="https://www.linkedin.com/in/santiago-lobo-ulloa/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className=" btn btn-md xl:btn-lg border-2 border-white/30 rounded-3xl text-white bg-transparent hover:bg-white/10 font-medium"
+          >
             Let's Connect
-          </button>
+          </a>
         </div>
       </div>
     </div>

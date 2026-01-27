@@ -36,6 +36,9 @@ export const metadata: Metadata = {
     title: "Santiago Lobo - Portfolio",
     description: "Portfolio of Santiago Lobo - Software Developer and Leader",
   },
+  icons: {
+    icon: "/assets/images/Logo.svg",
+  },
 };
 
 export default function RootLayout({

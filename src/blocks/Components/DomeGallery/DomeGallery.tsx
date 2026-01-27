@@ -243,18 +243,7 @@ export default function DomeGallery({
   const openStartedAtRef = useRef(0);
   const lastDragEndAt = useRef(0);
 
-  const scrollLockedRef = useRef(false);
-  const lockScroll = useCallback(() => {
-    if (scrollLockedRef.current) return;
-    scrollLockedRef.current = true;
-    document.body.classList.add("dg-scroll-lock");
-  }, []);
-  const unlockScroll = useCallback(() => {
-    if (!scrollLockedRef.current) return;
-    if (rootRef.current?.getAttribute("data-enlarging") === "true") return;
-    scrollLockedRef.current = false;
-    document.body.classList.remove("dg-scroll-lock");
-  }, []);
+  // Removed scroll locking to avoid scrollbar flicker
 
   const items = useMemo(() => buildItems(images, segments), [images, segments]);
 
@@ -469,7 +458,7 @@ export default function DomeGallery({
         const evt = event as PointerEvent;
         pointerTypeRef.current = (evt.pointerType as any) || "mouse";
         if (pointerTypeRef.current === "touch") evt.preventDefault();
-        if (pointerTypeRef.current === "touch") lockScroll();
+        // Scroll locking removed to avoid scrollbar flicker
         draggingRef.current = true;
         cancelTapRef.current = false;
         movedRef.current = false;
@@ -561,7 +550,7 @@ export default function DomeGallery({
 
           if (cancelTapRef.current)
             setTimeout(() => (cancelTapRef.current = false), 120);
-          if (pointerTypeRef.current === "touch") unlockScroll();
+          // Scroll unlocking removed to avoid scrollbar flicker
           if (movedRef.current) lastDragEndAt.current = performance.now();
           movedRef.current = false;
         }
@@ -572,7 +561,8 @@ export default function DomeGallery({
 
   useEffect(() => {
     const scrim = scrimRef.current;
-    if (!scrim) return;
+    const root = rootRef.current;
+    if (!scrim || !root) return;
 
     const close = () => {
       if (performance.now() - openStartedAtRef.current < 250) return;
@@ -619,6 +609,7 @@ export default function DomeGallery({
         focusedElRef.current = null;
         rootRef.current?.removeAttribute("data-enlarging");
         openingRef.current = false;
+        // Scroll lock removed
         return;
       }
 
@@ -744,12 +735,7 @@ export default function DomeGallery({
                 el.style.transition = "";
                 el.style.opacity = "";
                 openingRef.current = false;
-                if (
-                  !draggingRef.current &&
-                  rootRef.current?.getAttribute("data-enlarging") !== "true"
-                ) {
-                  document.body.classList.remove("dg-scroll-lock");
-                }
+                // Scroll lock removed to avoid scrollbar flicker
               }, 300);
             });
           });
@@ -761,7 +747,28 @@ export default function DomeGallery({
       });
     };
 
+    // Close when clicking on scrim (background overlay)
     scrim.addEventListener("click", close);
+
+    // Close when clicking anywhere outside the dome
+    const handleOutsideClick = (e: MouseEvent) => {
+      // Only close if an image is currently open
+      if (
+        focusedElRef.current &&
+        rootRef.current?.getAttribute("data-enlarging") === "true"
+      ) {
+        const target = e.target as HTMLElement;
+
+        // Check if click is outside the root container (dome)
+        if (root && !root.contains(target)) {
+          close();
+        }
+      }
+    };
+
+    // Listen for clicks on the document to catch clicks outside the dome
+    document.addEventListener("click", handleOutsideClick);
+
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") close();
     };
@@ -769,6 +776,7 @@ export default function DomeGallery({
 
     return () => {
       scrim.removeEventListener("click", close);
+      document.removeEventListener("click", handleOutsideClick);
       window.removeEventListener("keydown", onKey);
     };
   }, [enlargeTransitionMs, openedImageBorderRadius, grayscale]);
@@ -778,7 +786,7 @@ export default function DomeGallery({
     if (openingRef.current) return;
     openingRef.current = true;
     openStartedAtRef.current = performance.now();
-    lockScroll();
+    // Scroll locking removed to avoid scrollbar flicker
     const parent = el.parentElement as HTMLElement;
     focusedElRef.current = el;
     el.setAttribute("data-focused", "true");
@@ -888,7 +896,7 @@ export default function DomeGallery({
 
   useEffect(() => {
     return () => {
-      document.body.classList.remove("dg-scroll-lock");
+      // Cleanup on unmount
     };
   }, []);
 

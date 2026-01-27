@@ -7,6 +7,10 @@ import { GoArrowUpRight } from "react-icons/go";
 import Logo from "../../../../public/assets/components/Logo";
 import StarBorder from "@/blocks/StarBorder/StarBorder";
 import ShinyText from "@/blocks/TextAnimations/ShinyText/ShinyText";
+
+/** Local path to the resume PDF in public/assets */
+const RESUME_PATH = "/assets/Resume - Santiago Lobo.pdf";
+
 type CardNavLink = {
   label: string;
   href: string;
@@ -97,7 +101,7 @@ const CardNav: React.FC<CardNavProps> = ({
     tl.to(
       cardsRef.current,
       { y: 0, opacity: 1, duration: 0.4, ease, stagger: 0.08 },
-      "-=0.1"
+      "-=0.1",
     );
 
     return tl;
@@ -209,13 +213,15 @@ const CardNav: React.FC<CardNavProps> = ({
             </div> */}
           </div>
 
-          <button
-            type="button"
-            className="card-nav-cta-button btn btn-neutral hidden md:inline-flex border-0 rounded-[calc(0.75rem-0.2rem)] px-4 h-full font-semibold cursor-pointer transition-colors duration-300 "
+          <a
+            href={RESUME_PATH}
+            download="Santiago-Lobo-Resume.pdf"
+            className="card-nav-cta-button btn btn-neutral hidden md:inline-flex border-0 rounded-[calc(0.75rem-0.2rem)] px-4 h-full font-semibold cursor-pointer transition-colors duration-300 no-underline"
             style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
+            aria-label="Download resume (PDF)"
           >
             <ShinyText text="Download Resume" speed={5} />
-          </button>
+          </a>
         </div>
 
         <div

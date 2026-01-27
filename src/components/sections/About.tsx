@@ -9,11 +9,11 @@ import {
   getCloudinaryVideoUrl,
   getCloudinaryVideoPoster,
   GALLERY_IMAGES,
-} from "@/utils/cloudinary";
+} from "../../utils/cloudinary";
 import { GALLERY_PUBLIC_IDS } from "@/utils/galleryMedia";
 
 export default function About() {
-  const { isMobile } = useScreenSize();
+  const { isMobile, isTablet } = useScreenSize();
 
   // Use shared public IDs
   const cloudinaryPublicIds = GALLERY_PUBLIC_IDS;
@@ -66,7 +66,7 @@ export default function About() {
   return (
     <div
       id="about"
-      className="dark:bg-base-100 bg-white h-full xl:h-[90vh] flex flex-col items-center justify-center w-full z-50"
+      className="dark:bg-base-100 bg-white h-full xl:h-[90vh] flex flex-col items-center justify-center w-full z-50 py-12"
     >
       <div className="h-full w-full flex xl:flex-row flex-col flex-reverse items-center justify-center container xl:gap-20 2xl:gap-64">
         {/* Desktop Dome Gallery - Only render on desktop */}
@@ -128,7 +128,7 @@ export default function About() {
       </div>
 
       {/* Mobile Circular Gallery - Only render on mobile */}
-      {isMobile && (
+      {(isTablet || isMobile) && (
         <div className="w-full h-[400px] mt-8">
           <CircularGallery
             items={galleryItems}
@@ -136,8 +136,8 @@ export default function About() {
             textColor="#ffffff"
             borderRadius={0.1}
             font="bold 20px Figtree"
-            scrollSpeed={1.5}
-            scrollEase={0.05}
+            scrollSpeed={1}
+            scrollEase={0.2}
           />
         </div>
       )}

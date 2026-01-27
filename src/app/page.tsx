@@ -41,7 +41,7 @@ export default function Home() {
         <SplashScreen
           onLoadComplete={() => setIsLoading(false)}
           mediaUrls={mediaUrls}
-          minDisplayTime={1500}
+          minDisplayTime={2900}
         />
       )}
       <main

@@ -97,7 +97,7 @@ export default function Footer() {
         {/* Logo */}
         <div className="flex justify-center mb-6">
           <div className="text-teal-400 dark:text-teal-500">
-            <Logo width={72} height={72} />
+            <Logo width={76} height={76} />
           </div>
         </div>
 
@@ -107,7 +107,7 @@ export default function Footer() {
             <button
               key={section.id}
               onClick={() => scrollToSection(section.id)}
-              className="text-white dark:text-gray-200 hover:text-teal-400 dark:hover:text-teal-400 transition-colors duration-200 text-sm md:text-base font-medium"
+              className="text-white dark:text-gray-200 hover:text-teal-400 dark:hover:text-teal-400 transition-colors duration-200 text-sm md:text-base font-medium cursor-pointer"
             >
               {section.label}
             </button>
@@ -142,7 +142,7 @@ export default function Footer() {
             {showBackToTop && (
               <button
                 onClick={scrollToTop}
-                className="flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500 hover:text-teal-400 dark:hover:text-teal-400 transition-colors duration-200"
+                className="flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500 hover:text-teal-400 dark:hover:text-teal-400 transition-colors duration-200 cursor-pointer"
                 aria-label="Back to top"
               >
                 <span>Back to top</span>
