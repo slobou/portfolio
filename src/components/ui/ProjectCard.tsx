@@ -3,6 +3,17 @@
 import Image from "next/image";
 import { useState } from "react";
 
+/** Detect if a value is a CSS color (hex, rgb, rgba, hsl, hsla) rather than a Tailwind class */
+function isCssColor(value: string): boolean {
+  return (
+    value.startsWith("#") ||
+    value.startsWith("rgb(") ||
+    value.startsWith("rgba(") ||
+    value.startsWith("hsl(") ||
+    value.startsWith("hsla(")
+  );
+}
+
 interface Collaborator {
   name: string;
   avatar: string;
@@ -10,9 +21,11 @@ interface Collaborator {
 }
 
 interface ProjectCardProps {
+  projectId: string;
   title: string;
   category: string;
   collaborators?: Collaborator[];
+  /** Tailwind class (e.g. "bg-white", "from-X to-Y") or CSS color (e.g. "#000433", "rgb(0,0,0)") */
   backgroundColor?: string;
   backgroundType?: "gradient" | "solid";
   logo?: string;
@@ -21,6 +34,7 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({
+  projectId,
   title,
   category,
   collaborators = [],
@@ -28,26 +42,39 @@ export default function ProjectCard({
   backgroundType = "gradient",
   logo,
   logoClass = "",
-  onPlay,
 }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+
+  const useCssColor = isCssColor(backgroundColor);
+  const isLightBg =
+    !useCssColor &&
+    (backgroundColor.includes("white") ||
+      backgroundColor.includes("gray-50") ||
+      backgroundColor.includes("bg-white"));
 
   // Determine if we should show logo mode (only logo, no text initially)
   const isLogoMode = logo && !isHovered;
 
   return (
     <div
-      className="relative w-full h-64 rounded-2xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-[1.02]"
+      className="relative w-full h-64 rounded-2xl overflow-hidden shadow-lg  transition-all duration-300 hover:shadow-xl hover:scale-[1.02]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Background - Gradient or Solid */}
+      {/* Background - Gradient or Solid; supports hex/CSS colors or Tailwind classes */}
       <div
         className={`absolute inset-0 ${
-          backgroundType === "gradient"
-            ? `bg-gradient-to-b ${backgroundColor}`
-            : backgroundColor
+          useCssColor
+            ? ""
+            : backgroundType === "gradient"
+              ? `bg-gradient-to-b ${backgroundColor}`
+              : backgroundColor
         }`}
+        style={
+          useCssColor && backgroundType === "solid"
+            ? { backgroundColor }
+            : undefined
+        }
       />
 
       {/* Logo Display - Different behavior based on hover */}
@@ -77,23 +104,14 @@ export default function ProjectCard({
       <div
         className={`relative z-10 p-6 h-full flex flex-col justify-between transition-all duration-500 ${
           isLogoMode ? "opacity-0" : "opacity-100"
-        } ${
-          backgroundColor.includes("white") ||
-          backgroundColor.includes("gray-50")
-            ? "text-gray-800"
-            : "text-white"
-        }`}
+        } ${isLightBg ? "text-gray-800" : "text-white"}`}
       >
         {/* Top Section - Category */}
         <div className="flex items-start">
           {/* Category */}
           <p
             className={`text-sm font-light ${
-              backgroundColor.includes("white") ||
-              backgroundColor.includes("gray-50") ||
-              backgroundColor.includes("bg-white")
-                ? "text-gray-600"
-                : "text-gray-200"
+              isLightBg ? "text-gray-600" : "text-gray-200"
             }`}
           >
             {category}
@@ -156,11 +174,15 @@ export default function ProjectCard({
           )}
 
           <button
-            onClick={onPlay}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
-              backgroundColor.includes("white") ||
-              backgroundColor.includes("gray-50") ||
-              backgroundColor.includes("bg-white")
+            type="button"
+            onClick={() =>
+              (
+                document.getElementById(
+                  `project-modal-${projectId}`,
+                ) as HTMLDialogElement | null
+              )?.showModal()}
+            className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 cursor-pointer ${
+              isLightBg
                 ? isHovered
                   ? "bg-emerald-700 text-white shadow-lg scale-105"
                   : "bg-teal-700 text-white opacity-95"

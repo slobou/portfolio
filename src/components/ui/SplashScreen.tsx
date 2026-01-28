@@ -7,6 +7,8 @@ interface SplashScreenProps {
   onLoadComplete: () => void;
   mediaUrls: string[];
   minDisplayTime?: number; // Minimum time to show splash (ms)
+  /** If true, also wait for window.load (document + all resources) before considering load complete. Default true. */
+  waitForFullPageLoad?: boolean;
 }
 
 // Logo paths from Logo.svg - for path drawing animation
@@ -17,24 +19,24 @@ const LOGO_PATHS = [
   "M292.173 446.027V426.107H295.005L304.605 440.843H303.165L312.573 426.107H315.405L315.453 446.027H312.141L312.093 431.003H312.765L304.605 443.675H303.021L294.621 431.003H295.485V446.027H292.173ZM278.541 446.027V428.939H271.293V426.107H289.245V428.939H281.997V446.027H278.541Z",
 ];
 
+function whenWindowFullyLoaded(): Promise<void> {
+  if (typeof document === "undefined") return Promise.resolve();
+  if (document.readyState === "complete") return Promise.resolve();
+  return new Promise((resolve) => {
+    window.addEventListener("load", () => resolve(), { once: true });
+  });
+}
+
 export default function SplashScreen({
   onLoadComplete,
   mediaUrls,
   minDisplayTime = 2800,
+  waitForFullPageLoad = true,
 }: SplashScreenProps) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const startTime = Date.now();
-    const totalMedia = mediaUrls.length;
-
-    if (totalMedia === 0) {
-      setTimeout(() => {
-        setIsLoading(false);
-        onLoadComplete();
-      }, minDisplayTime);
-      return;
-    }
 
     const loadMedia = (url: string): Promise<void> => {
       return new Promise((resolve) => {
@@ -57,7 +59,16 @@ export default function SplashScreen({
       });
     };
 
-    Promise.all(mediaUrls.map(loadMedia)).then(() => {
+    const mediaPromise =
+      mediaUrls.length > 0
+        ? Promise.all(mediaUrls.map(loadMedia)).then(() => {})
+        : Promise.resolve();
+
+    const fullLoadPromise = waitForFullPageLoad
+      ? whenWindowFullyLoaded()
+      : Promise.resolve();
+
+    Promise.all([mediaPromise, fullLoadPromise]).then(() => {
       const elapsedTime = Date.now() - startTime;
       const remainingTime = Math.max(0, minDisplayTime - elapsedTime);
 
@@ -68,7 +79,7 @@ export default function SplashScreen({
         }, 400);
       }, remainingTime);
     });
-  }, [mediaUrls, minDisplayTime, onLoadComplete]);
+  }, [mediaUrls, minDisplayTime, onLoadComplete, waitForFullPageLoad]);
 
   // Hide scrollbar while splash is active
   useEffect(() => {

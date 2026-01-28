@@ -5,9 +5,11 @@ interface Collaborator {
 }
 
 interface Project {
+  id: string;
   title: string;
   category: string;
   collaborators: Collaborator[];
+  /** Tailwind class (e.g. "bg-white") or CSS color: hex (#000433), rgb(), rgba(), hsl(), hsla() */
   backgroundColor: string;
   backgroundType: "gradient" | "solid";
   logo: string;
@@ -16,6 +18,16 @@ interface Project {
 
 export const projects: Project[] = [
   {
+    id: "boss-tech",
+    title: "BOSS.Tech",
+    category: "Frontend Engineer",
+    collaborators: [],
+    backgroundColor: "bg-white",
+    backgroundType: "solid",
+    logo: "/assets/images/projects/BTLogoDark.png",
+  },
+  {
+    id: "myself",
     title: "MySelf",
     category: "Mobile and Web Development",
     collaborators: [
@@ -46,6 +58,7 @@ export const projects: Project[] = [
     logo: "/assets/images/projects/Myself.svg",
   },
   {
+    id: "wall-it",
     title: "WALL-IT",
     category: "Mobile and Web Development",
     collaborators: [
@@ -85,6 +98,7 @@ export const projects: Project[] = [
     logo: "/assets/images/projects/WALL-IT.svg",
   },
   {
+    id: "koired",
     title: "Koired",
     category: "Web Development",
     collaborators: [
@@ -106,6 +120,7 @@ export const projects: Project[] = [
     logo: "/assets/images/projects/koired.svg",
   },
   {
+    id: "skemclub",
     title: "SKEMClub",
     category: "Innovation",
     collaborators: [
@@ -144,7 +159,7 @@ export const projects: Project[] = [
           "https://www.linkedin.com/in/leonora-mena-gonz%C3%A1lez-586b2a2b9",
       },
     ],
-    backgroundColor: "bg-sky-300",
+    backgroundColor: "bg-sky-400",
     backgroundType: "solid",
     logo: "/assets/images/projects/SKEM.svg",
     logoClass: "pl-6 pt-4",

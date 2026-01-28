@@ -1,5 +1,5 @@
-import StarBorder from "@/blocks/StarBorder/StarBorder";
-import RotatingText from "@/blocks/TextAnimations/RotatingText/RotatingText";
+import StarBorder from "@/components/blocks/StarBorder/StarBorder";
+import RotatingText from "@/components/blocks/TextAnimations/RotatingText/RotatingText";
 
 export default function Hero() {
   return (
@@ -9,7 +9,7 @@ export default function Hero() {
     >
       <div className="hero-content w-full h-full flex flex-col items-center justify-center gap-12">
         <div className="avatar ">
-          <div className="w-20 rounded-full">
+          <div className="w-24 h-24 rounded-full">
             <img
               src="/assets/images/PhotoHero.jpg"
               draggable={false}
@@ -44,7 +44,9 @@ export default function Hero() {
           <button
             type="button"
             onClick={() =>
-              document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
+              document
+                .getElementById("projects")
+                ?.scrollIntoView({ behavior: "smooth" })
             }
             className="focus:outline-none border-0 bg-transparent p-0 cursor-pointer"
           >

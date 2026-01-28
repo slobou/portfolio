@@ -5,8 +5,8 @@ import { gsap } from "gsap";
 // use your own icon import if react-icons is not available
 import { GoArrowUpRight } from "react-icons/go";
 import Logo from "../../../../public/assets/components/Logo";
-import StarBorder from "@/blocks/StarBorder/StarBorder";
-import ShinyText from "@/blocks/TextAnimations/ShinyText/ShinyText";
+import StarBorder from "@/components/blocks/StarBorder/StarBorder";
+import ShinyText from "@/components/blocks/TextAnimations/ShinyText/ShinyText";
 
 /** Local path to the resume PDF in public/assets */
 const RESUME_PATH = "/assets/Resume - Santiago Lobo.pdf";

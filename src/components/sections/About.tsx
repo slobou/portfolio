@@ -1,7 +1,7 @@
 "use client";
 
-import DomeGallery from "@/blocks/Components/DomeGallery/DomeGallery";
-import CircularGallery from "@/blocks/Components/CircularGallery/CircularGallery";
+import DomeGallery from "@/components/blocks/DomeGallery/DomeGallery";
+import CircularGallery from "@/components/blocks/CircularGallery/CircularGallery";
 import { useScreenSize } from "@/hooks/useScreenSize";
 import { useMemo } from "react";
 import {
@@ -9,7 +9,7 @@ import {
   getCloudinaryVideoUrl,
   getCloudinaryVideoPoster,
   GALLERY_IMAGES,
-} from "../../utils/cloudinary";
+} from "@/utils/cloudinary";
 import { GALLERY_PUBLIC_IDS } from "@/utils/galleryMedia";
 
 export default function About() {
@@ -69,22 +69,24 @@ export default function About() {
       className="dark:bg-base-100 bg-white h-full xl:h-[90vh] flex flex-col items-center justify-center w-full z-50 py-12"
     >
       <div className="h-full w-full flex xl:flex-row flex-col flex-reverse items-center justify-center container xl:gap-20 2xl:gap-64">
-        {/* Desktop Dome Gallery - Only render on desktop */}
+        {/* Desktop Dome Gallery – softer vignette, fade-out at edges */}
         {!isMobile && (
-          <div className="xl:w-[50%] w-full 2xl:w-[100%] h-full">
+          <div className="gallery-edge-fade xl:w-[50%] w-full 2xl:w-[100%] h-full min-h-[360px]">
             <DomeGallery
               images={images}
               overlayBlurColor="transparent"
-              fit={0.7}
-              segments={27}
-              fitBasis="auto"
-              minRadius={300}
-              maxRadius={700}
+              fit={1.3}
+              segments={30}
+              fitBasis="height"
+              minRadius={600}
+              maxRadius={7000}
               maxVerticalRotationDeg={0}
               padFactor={0.05}
               openedImageWidth="500px"
               openedImageHeight="520px"
               grayscale={false}
+              autoRotate
+              autoRotateSpeed={2}
             />
           </div>
         )}

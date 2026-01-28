@@ -33,6 +33,10 @@ type DomeGalleryProps = {
   imageBorderRadius?: string;
   openedImageBorderRadius?: string;
   grayscale?: boolean;
+  /** When true, the dome rotates slowly on the Y axis */
+  autoRotate?: boolean;
+  /** Degrees per second when autoRotate is on (default 12) */
+  autoRotateSpeed?: number;
 };
 
 type ItemDef = {
@@ -215,6 +219,8 @@ export default function DomeGallery({
   imageBorderRadius = "30px",
   openedImageBorderRadius = "30px",
   grayscale = true,
+  autoRotate = false,
+  autoRotateSpeed = 12,
 }: DomeGalleryProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLDivElement>(null);
@@ -404,6 +410,34 @@ export default function DomeGallery({
   useEffect(() => {
     applyTransform(rotationRef.current.x, rotationRef.current.y);
   }, []);
+
+  // Continuous auto-rotation on Y axis (pauses while dragging or when an image is enlarged)
+  const autoRotateRAF = useRef<number | null>(null);
+  const lastAutoRotateTime = useRef<number>(0);
+  useEffect(() => {
+    if (!autoRotate) return;
+    lastAutoRotateTime.current = performance.now();
+    const tick = () => {
+      autoRotateRAF.current = requestAnimationFrame(tick);
+      const now = performance.now();
+      if (draggingRef.current || focusedElRef.current) {
+        lastAutoRotateTime.current = now;
+        return;
+      }
+      const dt = (now - lastAutoRotateTime.current) / -1000;
+      lastAutoRotateTime.current = now;
+      const addY = autoRotateSpeed * dt;
+      rotationRef.current.y = wrapAngleSigned(rotationRef.current.y + addY);
+      applyTransform(rotationRef.current.x, rotationRef.current.y);
+    };
+    autoRotateRAF.current = requestAnimationFrame(tick);
+    return () => {
+      if (autoRotateRAF.current) {
+        cancelAnimationFrame(autoRotateRAF.current);
+        autoRotateRAF.current = null;
+      }
+    };
+  }, [autoRotate, autoRotateSpeed]);
 
   const stopInertia = useCallback(() => {
     if (inertiaRAF.current) {
@@ -1108,27 +1142,27 @@ export default function DomeGallery({
           <div
             className="absolute inset-0 m-auto z-[3] pointer-events-none"
             style={{
-              backgroundImage: `radial-gradient(rgba(235, 235, 235, 0) 65%, var(--overlay-blur-color, ${overlayBlurColor}) 100%)`,
+              backgroundImage: `radial-gradient(rgba(235, 235, 235, 0) 78%, var(--overlay-blur-color, ${overlayBlurColor}) 100%)`,
             }}
           />
 
           <div
             className="absolute inset-0 m-auto z-[3] pointer-events-none"
             style={{
-              WebkitMaskImage: `radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, ${overlayBlurColor}) 90%)`,
-              maskImage: `radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, ${overlayBlurColor}) 90%)`,
+              WebkitMaskImage: `radial-gradient(rgba(235, 235, 235, 0) 80%, var(--overlay-blur-color, ${overlayBlurColor}) 96%)`,
+              maskImage: `radial-gradient(rgba(235, 235, 235, 0) 80%, var(--overlay-blur-color, ${overlayBlurColor}) 96%)`,
               backdropFilter: "blur(3px)",
             }}
           />
 
           <div
-            className="absolute left-0 right-0 top-0 h-[120px] z-[5] pointer-events-none rotate-180"
+            className="absolute left-0 right-0 top-0 h-[60px] z-[5] pointer-events-none rotate-180"
             style={{
               background: `linear-gradient(to bottom, transparent, var(--overlay-blur-color, ${overlayBlurColor}))`,
             }}
           />
           <div
-            className="absolute left-0 right-0 bottom-0 h-[120px] z-[5] pointer-events-none"
+            className="absolute left-0 right-0 bottom-0 h-[60px] z-[5] pointer-events-none"
             style={{
               background: `linear-gradient(to bottom, transparent, var(--overlay-blur-color, ${overlayBlurColor}))`,
             }}

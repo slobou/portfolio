@@ -97,7 +97,7 @@ export default function Footer() {
         {/* Logo */}
         <div className="flex justify-center mb-6">
           <div className="text-teal-400 dark:text-teal-500">
-            <Logo width={76} height={76} />
+            <Logo width={82} height={82} />
           </div>
         </div>
 

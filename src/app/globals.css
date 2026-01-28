@@ -53,3 +53,37 @@
 .dg-scroll-lock {
   overflow: hidden;
 }
+
+/* Fade-out on left, right, top and bottom so all edges blend instead of hard cut */
+.gallery-edge-fade {
+  -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    );
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    );
+  mask-composite: intersect;
+}

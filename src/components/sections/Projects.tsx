@@ -1,6 +1,7 @@
 "use client";
 
 import ProjectCard from "@/components/ui/ProjectCard";
+import ProjectModal from "@/components/ui/ProjectModal";
 import { projects } from "@/data/projects";
 
 export default function Projects() {
@@ -23,7 +24,8 @@ export default function Projects() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-7xl px-6">
           {projects.map((project, index) => (
             <ProjectCard
-              key={index}
+              key={project.id}
+              projectId={project.id}
               title={project.title}
               category={project.category}
               collaborators={project.collaborators}
@@ -31,11 +33,15 @@ export default function Projects() {
               backgroundType={project.backgroundType}
               logo={project.logo}
               logoClass={project.logoClass}
-              onPlay={() => console.log(`Opening ${project.title}`)}
             />
           ))}
         </div>
       </div>
+
+      {/* DaisyUI pattern: all modals in the DOM with stable IDs, opened via getElementById().showModal() */}
+      {projects.map((project) => (
+        <ProjectModal key={project.id} projectId={project.id} />
+      ))}
     </div>
   );
 }
