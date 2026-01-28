@@ -138,8 +138,8 @@ export default function About() {
             textColor="#ffffff"
             borderRadius={0.1}
             font="bold 20px Figtree"
-            scrollSpeed={1}
-            scrollEase={0.2}
+            scrollSpeed={3}
+            scrollEase={0.05}
           />
         </div>
       )}
