@@ -218,3 +218,20 @@ export function getCloudinaryRawUrl(
 
 /** Public ID for resume PDF in Cloudinary – use when serving resume from Cloudinary */
 export const RESUME_PUBLIC_ID = "portfolio/resume";
+
+/**
+ * Resolve a project image source to a URL.
+ * - If src starts with "http" or "/", it's treated as an absolute/relative URL and returned as-is.
+ * - Otherwise it's treated as a Cloudinary public ID and an optimized image URL is returned.
+ * Use this for project modal gallery images so you can mix local paths and Cloudinary IDs.
+ */
+export function resolveProjectImageUrl(src: string): string {
+  if (src.startsWith("http") || src.startsWith("/")) return src;
+  return getCloudinaryImageUrl(src, {
+    width: 1200,
+    height: 1200,
+    crop: "fit",
+    quality: "auto",
+    format: "auto",
+  });
+}
