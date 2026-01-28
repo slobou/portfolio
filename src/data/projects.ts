@@ -4,7 +4,13 @@ interface Collaborator {
   linkedInUrl?: string;
 }
 
-interface Project {
+/** Optional: icon URL (e.g. from devicons or simple-icons CDN) */
+export interface Technology {
+  name: string;
+  iconUrl?: string;
+}
+
+export interface Project {
   id: string;
   title: string;
   category: string;
@@ -12,24 +18,78 @@ interface Project {
   /** Tailwind class (e.g. "bg-white") or CSS color: hex (#000433), rgb(), rgba(), hsl(), hsla() */
   backgroundColor: string;
   backgroundType: "gradient" | "solid";
+  /** Logo URL or Cloudinary public ID (e.g. "portfolio/projects/myself-logo") */
   logo: string;
   logoClass?: string;
+  /** Long-form project description for the modal (optional) */
+  description?: string;
+  /** Gallery images for the modal, up to ~4. Each entry can be a URL (http or /) or a Cloudinary public ID (e.g. "portfolio/projects/myself-1"). Falls back to [logo] if absent. */
+  images?: string[];
+  /** Tech stack for the modal (optional) */
+  technologies?: Technology[];
+  /** What you did / your responsibilities (optional). If length matches gallery slides, one is shown per dot; otherwise all are shown as a list. */
+  responsibilities?: string[];
 }
 
 export const projects: Project[] = [
   {
     id: "boss-tech",
     title: "BOSS.Tech",
-    category: "Frontend Engineer",
+    category: "Frontend Engineer · San José, CR · Dec 2024 – Present",
+    description:
+      "BOSS.Tech is the first Business SuperApp. Unlike tools that only connect apps, but brings them together into one easy-to-use platform, and gives you actionable insights to run your business.",
     collaborators: [],
     backgroundColor: "bg-white",
     backgroundType: "solid",
     logo: "/assets/images/projects/BTLogoDark.png",
+    responsibilities: [
+      "React Native SuperApp (TypeScript, Expo): contacts, chat, AI, financial tools; worked with design on dashboards and UX.",
+      "Architected MiniApp platform: improved performance via memoization and component structure.",
+      "Backend (intern): REST APIs, third-party integrations, automation, and auth with engineering teams.",
+    ],
+    technologies: [
+      { name: "TypeScript", iconUrl: "https://cdn.simpleicons.org/typescript" },
+
+      {
+        name: "React Native",
+        iconUrl: "https://cdn.simpleicons.org/react",
+      },
+      {
+        name: "Expo",
+        iconUrl: "https://cdn.simpleicons.org/expo/white",
+      },
+      { name: "Redux", iconUrl: "https://cdn.simpleicons.org/redux" },
+      { name: "Python", iconUrl: "https://cdn.simpleicons.org/python" },
+      { name: "Git", iconUrl: "https://cdn.simpleicons.org/git" },
+      {
+        name: "GitLab",
+        iconUrl: "https://cdn.simpleicons.org/gitlab",
+      },
+      {
+        name: "Figma",
+        iconUrl: "https://cdn.simpleicons.org/figma/white",
+      },
+    ],
+    images: [
+      "/assets/images/projects/BTLogoDark.png",
+      "IMG_9395_ic1cin",
+      "Photo5_bfswlp",
+    ],
   },
   {
     id: "myself",
     title: "MySelf",
     category: "Mobile and Web Development",
+    description:
+      "MySelf is a mobile and web application focused on personal growth and self-tracking. Built with a cross-functional team, it combines technical expertise with a passion for empowering users.",
+    images: [
+      "/assets/images/projects/Myself.svg",
+      "https://avatars.githubusercontent.com/u/84209448?v=4",
+    ],
+    technologies: [
+      { name: "React Native", iconUrl: "https://cdn.simpleicons.org/react" },
+      { name: "TypeScript", iconUrl: "https://cdn.simpleicons.org/typescript" },
+    ],
     collaborators: [
       {
         name: "Santiago Lobo",
@@ -148,7 +208,7 @@ export const projects: Project[] = [
       },
       {
         name: "Jonder Mora Azofeifa",
-        avatar: "assets/images/projects/jonderpfp.JPG",
+        avatar: "/assets/images/projects/jonderpfp.JPG",
         linkedInUrl: "https://www.linkedin.com/in/jonderma",
       },
       {
