@@ -99,7 +99,7 @@ const CardNav: React.FC<CardNavProps> = ({
     tl.to(
       cardsRef.current,
       { y: 0, opacity: 1, duration: 0.4, ease, stagger: 0.08 },
-      "-=0.1",
+      "-=0.1"
     );
 
     return tl;
@@ -162,7 +162,7 @@ const CardNav: React.FC<CardNavProps> = ({
 
   return (
     <div
-      className={`card-nav-container absolute left-1/2 -translate-x-1/2 w-[92%] sm:w-[90%] md:w-[88%] max-w-[800px] 2xl:max-w-[880px] 3xl:max-w-[920px] 4xl:max-w-[960px] z-[99] top-[0.8em] sm:top-[1em] md:top-[1.5em] lg:top-[2em] xl:top-[2em] px-2 sm:px-0 ${className}`}
+      className={`card-nav-container absolute left-1/2 -translate-x-1/2 w-[92%] sm:w-[90%] md:w-[88%] max-w-[800px] 2xl:max-w-[880px] 3xl:max-w-[920px] 4xl:max-w-[960px] z-99 top-[0.8em] sm:top-[1em] md:top-[1.5em] lg:top-[2em] xl:top-[2em] px-2 sm:px-0 ${className}`}
     >
       <nav
         ref={navRef}
@@ -170,11 +170,11 @@ const CardNav: React.FC<CardNavProps> = ({
           isExpanded ? "open" : ""
         } block h-[60px] p-0 rounded-xl shadow-md relative overflow-hidden will-change-[height] dark:bg-black bg-white `}
       >
-        <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between p-2 pl-[1.1rem] z-[2]">
+        <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between p-2 pl-[1.1rem] z-2">
           <div
             className={`hamburger-menu ${
               isHamburgerOpen ? "open" : ""
-            } group h-full flex flex-col items-center justify-center cursor-pointer order-2 md:order-none dark:text-white text-black relative w-[40px]`}
+            } group h-full flex flex-col items-center justify-center cursor-pointer order-2 md:order-0 dark:text-white text-black relative w-[40px]`}
             onClick={toggleMenu}
             role="button"
             aria-label={isExpanded ? "Close menu" : "Open menu"}
@@ -195,11 +195,11 @@ const CardNav: React.FC<CardNavProps> = ({
               } group-hover:opacity-75`}
             />
           </div>
-          <div className="logo-container flex items-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 order-1 md:order-none font-[family-name:var(--font-montserrat)]">
+          <div className="logo-container flex items-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 order-1 md:order-0 font-[--font-montserrat]">
             <Logo
               width={48}
               height={48}
-              className="dark:fill-white fill-slate-600"
+              className="dark:text-slate-200 text-gray-400"
             />
           </div>
 
