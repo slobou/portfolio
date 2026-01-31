@@ -72,7 +72,7 @@ export default function About() {
   return (
     <div
       id="about"
-      className="dark:bg-base-100 bg-white min-h-[90vh] flex flex-col items-center justify-center w-full z-50 py-8 sm:py-12 md:py-10 lg:py-12 xl:py-14 3xl:py-16"
+      className="dark:bg-base-100 bg-white min-h-[90vh] flex flex-col items-center justify-center w-full z-50 py-8 sm:py-12 md:py-10 lg:py-12 xl:py-14 3xl:py-16 transition-colors duration-200 ease-out"
     >
       <div className="h-full w-full flex flex-col lg:flex-row items-center justify-center container mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 max-w-7xl 3xl:max-w-[90rem] 4xl:max-w-[100rem] 5xl:max-w-[120rem] gap-8 sm:gap-10 md:gap-12 lg:gap-16 xl:gap-20 2xl:gap-24 3xl:gap-28">
         {mounted && showDomeGallery && (
@@ -96,7 +96,7 @@ export default function About() {
           </div>
         )}
 
-        <div className="flex flex-col w-full max-w-xl lg:max-w-none lg:w-[50%] xl:w-[52%] 2xl:w-[50%] items-start justify-start gap-2 sm:gap-3 md:gap-4">
+        <div className="flex flex-col w-full max-w-xl lg:max-w-none lg:w-[50%] xl:w-[52%] 2xl:w-[50%] items-start justify-start gap-2 sm:gap-3 md:gap-4 [&_*]:transition-colors [&_*]:duration-200 [&_*]:ease-out">
           <div className="flex flex-row items-center justify-start gap-2 sm:gap-3">
             <div className="divider w-12 sm:w-14 md:w-16" />
             <p className="text-base sm:text-lg md:text-xl font-medium text-teal-700 dark:text-teal-800">

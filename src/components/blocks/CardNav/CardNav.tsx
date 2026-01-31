@@ -168,13 +168,13 @@ const CardNav: React.FC<CardNavProps> = ({
         ref={navRef}
         className={`card-nav ${
           isExpanded ? "open" : ""
-        } block h-[60px] p-0 rounded-xl shadow-md relative overflow-hidden will-change-[height] dark:bg-black bg-white `}
+        } block h-[60px] p-0 rounded-xl shadow-md relative overflow-hidden will-change-[height] dark:bg-black bg-white transition-colors duration-200 ease-out`}
       >
         <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between p-2 pl-[1.1rem] z-2">
           <div
             className={`hamburger-menu ${
               isHamburgerOpen ? "open" : ""
-            } group h-full flex flex-col items-center justify-center cursor-pointer order-2 md:order-0 dark:text-white text-black relative w-[40px]`}
+            } group h-full flex flex-col items-center justify-center cursor-pointer order-2 md:order-0 dark:text-white text-black relative w-[40px] transition-colors duration-200 ease-out`}
             onClick={toggleMenu}
             role="button"
             aria-label={isExpanded ? "Close menu" : "Open menu"}
@@ -195,7 +195,7 @@ const CardNav: React.FC<CardNavProps> = ({
               } group-hover:opacity-75`}
             />
           </div>
-          <div className="logo-container flex items-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 order-1 md:order-0 font-[--font-montserrat]">
+          <div className="logo-container flex items-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 order-1 md:order-0 font-[--font-montserrat] transition-colors duration-200 ease-out">
             <Logo
               width={48}
               height={48}
@@ -206,7 +206,7 @@ const CardNav: React.FC<CardNavProps> = ({
           <a
             href={RESUME_PATH}
             download="Santiago-Lobo-Resume.pdf"
-            className="card-nav-cta-button btn hidden md:inline-flex border-0 rounded-[calc(0.75rem-0.2rem)] px-4 h-full font-semibold cursor-pointer transition-colors duration-300 no-underline bg-teal-800 hover:bg-teal-900 active:bg-teal-950 text-white dark:bg-emerald-800 dark:hover:bg-emerald-900 dark:active:bg-emerald-950 dark:text-white"
+            className="card-nav-cta-button btn hidden md:inline-flex border-0 rounded-[calc(0.75rem-0.2rem)] px-4 h-full font-semibold cursor-pointer transition-colors duration-200 ease-out no-underline bg-teal-800 hover:bg-teal-900 active:bg-teal-950 text-white dark:bg-emerald-900 dark:hover:bg-emerald-950 dark:active:bg-emerald-950 dark:text-white"
             style={
               buttonBgColor != null
                 ? { backgroundColor: buttonBgColor, color: buttonTextColor }

@@ -8,12 +8,12 @@ export default function Projects() {
   return (
     <div
       id="projects"
-      className="dark:bg-base-200 bg-white w-full z-50 flex flex-col items-center py-10 sm:py-14 md:py-16 lg:py-20 xl:py-24"
+      className="dark:bg-base-200 bg-white w-full z-50 flex flex-col items-center py-10 sm:py-14 md:py-16 lg:py-20 xl:py-24 transition-colors duration-200 ease-out"
     >
       <div className="w-full flex flex-col items-center container mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 gap-6 sm:gap-8 md:gap-10 lg:gap-12 max-w-7xl 3xl:max-w-[90rem] 4xl:max-w-[100rem] 5xl:max-w-[120rem]">
         <div className="flex flex-row items-center justify-center gap-2 sm:gap-3 md:gap-4 flex-wrap">
           <div className="divider w-12 sm:w-14 md:w-16" />
-          <p className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-bold text-teal-800 dark:text-teal-600 text-center">
+          <p className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-bold text-teal-800 dark:text-teal-600 text-center transition-colors duration-200 ease-out">
             Experience & Projects
           </p>
           <div className="divider w-12 sm:w-14 md:w-16" />
