@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
+import { CollaboratorAvatar } from "./CollaboratorAvatar";
 
 /** Detect if a value is a CSS color (hex, rgb, rgba, hsl, hsla) rather than a Tailwind class */
 function isCssColor(value: string): boolean {
@@ -57,7 +57,7 @@ export default function ProjectCard({
 
   return (
     <div
-      className="relative w-full h-64 rounded-2xl overflow-hidden shadow-lg  transition-all duration-300 hover:shadow-xl hover:scale-[1.02]"
+      className="relative w-full max-w-[320px] sm:max-w-sm mx-auto h-44 sm:h-52 rounded-xl sm:rounded-2xl overflow-hidden shadow-md sm:shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -89,10 +89,9 @@ export default function ProjectCard({
             alt="Project Logo"
             draggable={false}
             className={`object-contain transition-all duration-500 ${
-              isLogoMode ? "w-72 h-72" : "w-52 h-52"
+              isLogoMode ? "w-60 h-60" : "w-44 h-44"
             } ${logoClass}`}
             style={{
-              // Ensure perfect centering with flexbox
               display: "block",
               margin: "0 auto",
             }}
@@ -102,7 +101,7 @@ export default function ProjectCard({
 
       {/* Content Container - Fades in on hover */}
       <div
-        className={`relative z-10 p-6 h-full flex flex-col justify-between transition-all duration-500 ${
+        className={`relative z-10 p-4 sm:p-5 md:p-6 h-full flex flex-col justify-between transition-all duration-500 ${
           isLogoMode ? "opacity-0" : "opacity-100"
         } ${isLightBg ? "text-gray-800" : "text-white"}`}
       >
@@ -119,8 +118,8 @@ export default function ProjectCard({
         </div>
 
         {/* Middle Section - Title */}
-        <div className="flex-1 flex items-center">
-          <h3 className="text-2xl md:text-3xl font-bold leading-tight">
+        <div className="flex-1 flex items-center min-h-0">
+          <h3 className="text-lg sm:text-xl md:text-2xl font-bold leading-tight line-clamp-2 sm:line-clamp-3">
             {title}
           </h3>
         </div>
@@ -130,42 +129,23 @@ export default function ProjectCard({
           {/* Collaborators - DaisyUI Avatar Group */}
           {collaborators.length > 0 && (
             <div className="avatar-group -space-x-2">
-              {collaborators.slice(0, 4).map((collaborator, index) => (
+              {collaborators.slice(0, 3).map((collaborator, index) => (
                 <div key={index} className="avatar placeholder">
-                  <div className="bg-neutral text-neutral-content rounded-full w-10 border-2 border-white">
-                    {collaborator.linkedInUrl ? (
-                      <a
-                        href={collaborator.linkedInUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full h-full flex items-center justify-center hover:opacity-80 transition-opacity"
-                      >
-                        <Image
-                          src={collaborator.avatar}
-                          alt={collaborator.name}
-                          width={40}
-                          height={40}
-                          className="rounded-full object-cover"
-                        />
-                      </a>
-                    ) : (
-                      <Image
-                        src={collaborator.avatar}
-                        alt={collaborator.name}
-                        width={40}
-                        height={40}
-                        className="rounded-full object-cover"
-                      />
-                    )}
+                  <div className="relative rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-2 border-white overflow-hidden shrink-0">
+                    <CollaboratorAvatar
+                      src={collaborator.avatar}
+                      name={collaborator.name}
+                      fill
+                    />
                   </div>
                 </div>
               ))}
-              {/* Show +X indicator if there are more than 4 collaborators */}
-              {collaborators.length > 4 && (
+              {/* Show +X indicator if there are more than 3 collaborators */}
+              {collaborators.length > 3 && (
                 <div className="avatar placeholder">
-                  <div className="bg-black text-white rounded-full w-10 border-2 border-white flex items-center justify-center">
-                    <span className="text-base font-extrabold h-full w-full flex items-center justify-center">
-                      +{collaborators.length - 4}
+                  <div className="relative rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-2 border-white overflow-hidden shrink-0 bg-black text-white flex items-center justify-center">
+                    <span className="text-xs sm:text-sm font-extrabold">
+                      +{collaborators.length - 3}
                     </span>
                   </div>
                 </div>
@@ -180,8 +160,9 @@ export default function ProjectCard({
                 document.getElementById(
                   `project-modal-${projectId}`,
                 ) as HTMLDialogElement | null
-              )?.showModal()}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 cursor-pointer ${
+              )?.showModal()
+            }
+            className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 cursor-pointer ml-auto shrink-0 ${
               isLightBg
                 ? isHovered
                   ? "bg-emerald-700 text-white shadow-lg scale-105"

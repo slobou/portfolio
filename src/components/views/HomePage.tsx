@@ -33,7 +33,7 @@ export default function HomePage() {
       )}
       {/* Rendered but hidden until splash completes—all components load in background so the site is ready when we reveal. */}
       <main
-        className={`flex flex-col xl:gap-0 transition-opacity duration-500 ${
+        className={`flex flex-col gap-0 transition-opacity duration-500 ${
           isLoading
             ? "invisible opacity-0 pointer-events-none"
             : "visible opacity-100"

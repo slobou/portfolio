@@ -52,7 +52,7 @@ const CardNav: React.FC<CardNavProps> = ({
     const navEl = navRef.current;
     if (!navEl) return 260;
 
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const isMobile = window.matchMedia("(max-width: 1024px)").matches;
     if (isMobile) {
       const contentEl = navEl.querySelector(".card-nav-content") as HTMLElement;
       if (contentEl) {
@@ -164,7 +164,7 @@ const CardNav: React.FC<CardNavProps> = ({
 
   return (
     <div
-      className={`card-nav-container absolute left-1/2 -translate-x-1/2 w-[90%] max-w-[800px] z-[99] top-[1.2em] md:top-[2em] ${className}`}
+      className={`card-nav-container absolute left-1/2 -translate-x-1/2 w-[92%] sm:w-[90%] md:w-[88%] max-w-[800px] 2xl:max-w-[880px] 3xl:max-w-[920px] 4xl:max-w-[960px] z-[99] top-[0.8em] sm:top-[1em] md:top-[1.5em] lg:top-[2em] xl:top-[2em] px-2 sm:px-0 ${className}`}
     >
       <nav
         ref={navRef}
@@ -245,7 +245,8 @@ const CardNav: React.FC<CardNavProps> = ({
               <div className="nav-card-links mt-auto flex flex-col gap-[2px]">
                 {item.links?.map((lnk, i) => {
                   const isExternal =
-                    lnk.href.startsWith("http") || lnk.href.startsWith("mailto:");
+                    lnk.href.startsWith("http") ||
+                    lnk.href.startsWith("mailto:");
                   return (
                     <a
                       key={`${lnk.label}-${i}`}

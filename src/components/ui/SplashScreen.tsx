@@ -108,7 +108,7 @@ export default function SplashScreen({
         !isLoading ? "pointer-events-none" : ""
       }`}
     >
-      <div className="flex w-full max-w-md flex-col items-center justify-center gap-12 px-6">
+      <div className="flex w-full max-w-md flex-col items-center justify-center gap-8 sm:gap-10 md:gap-12 px-4 sm:px-6 md:px-8">
         {/* Logo with path drawing animation */}
         <motion.div
           className="relative flex items-center justify-center"
@@ -120,7 +120,7 @@ export default function SplashScreen({
             viewBox="20 15 350 520"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="w-24 h-auto md:w-32 max-w-[140px] drop-shadow-[0_0_24px_rgba(0,181,87,0.2)]"
+            className="w-20 h-auto sm:w-24 sm:h-auto md:w-28 md:h-auto lg:w-32 max-w-[140px] drop-shadow-[0_0_24px_rgba(0,181,87,0.2)]"
             preserveAspectRatio="xMidYMid meet"
           >
             {/* Stroke-drawing layer: each path traces on with pathLength */}
@@ -213,10 +213,10 @@ export default function SplashScreen({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
-          <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold text-white tracking-tight">
             Santiago Lobo
           </h1>
-          <p className="text-base md:text-lg text-teal-300/90 font-medium">
+          <p className="text-sm sm:text-base md:text-lg text-teal-300/90 font-medium">
             Portfolio
           </p>
         </motion.div>

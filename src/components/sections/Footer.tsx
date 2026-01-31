@@ -51,7 +51,7 @@ export default function Footer() {
     },
     {
       name: "GitHub",
-      url: "https://github.com/thewolflone",
+      url: "https://github.com/slobou",
       icon: (
         <svg
           className="w-5 h-5"
@@ -65,7 +65,7 @@ export default function Footer() {
     },
     {
       name: "Email",
-      url: "mailto:santiago@example.com",
+      url: "mailto:slobo.coding@gmail.com",
       icon: (
         <svg
           className="w-5 h-5"
@@ -93,16 +93,16 @@ export default function Footer() {
 
   return (
     <div className="dark:bg-base-200 bg-black w-full border-t border-gray-800 dark:border-gray-700 z-50 relative">
-      <div className="container mx-auto px-4 py-8 md:py-14">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 max-w-7xl 3xl:max-w-[90rem] 4xl:max-w-[100rem] py-8 sm:py-10 md:py-12 lg:py-14">
         {/* Logo */}
-        <div className="flex justify-center mb-6">
-          <div className="text-teal-400 dark:text-teal-500">
-            <Logo width={82} height={82} />
+        <div className="flex justify-center mb-4 sm:mb-5 md:mb-6">
+          <div className="text-teal-400 dark:text-teal-500 w-14 h-14 sm:w-16 sm:h-16 md:w-[4.5rem] md:h-[4.5rem] lg:w-20 lg:h-20">
+            <Logo width={82} height={82} className="w-full h-full" />
           </div>
         </div>
 
         {/* Site Sections */}
-        <div className="flex flex-wrap justify-center gap-4 md:gap-6 lg:gap-8 mb-6">
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 mb-4 sm:mb-5 md:mb-6">
           {siteSections.map((section) => (
             <button
               key={section.id}
@@ -115,7 +115,7 @@ export default function Footer() {
         </div>
 
         {/* Social Media Icons */}
-        <div className="flex justify-center items-center gap-3 mb-6">
+        <div className="flex justify-center items-center gap-2 sm:gap-3 mb-4 sm:mb-5 md:mb-6">
           {socialLinks.map((social) => (
             <a
               key={social.name}

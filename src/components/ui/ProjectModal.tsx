@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { CollaboratorAvatar } from "./CollaboratorAvatar";
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import useEmblaCarousel from "embla-carousel-react";
@@ -12,11 +13,9 @@ interface ProjectModalProps {
   projectId: string;
 }
 
-/** Gallery images: use project.images (max 4) or fallback to [logo] */
+/** Gallery images: use project.images or fallback to [logo] */
 function galleryImages(project: Project): string[] {
-  const list = project.images?.length
-    ? project.images.slice(0, 4)
-    : [project.logo];
+  const list = project.images?.length ? project.images : [project.logo];
   return list;
 }
 
@@ -25,11 +24,17 @@ function ImageCarousel({
   alt,
   value,
   onIndexChange,
+  firstSlideBackground,
+  firstSlideLogoClass,
 }: {
   images: string[];
   alt: string;
   value?: number;
   onIndexChange?: (index: number) => void;
+  /** Tailwind class or CSS color for the first slide (logo) background, e.g. "bg-neutral-800" or "#04724D" */
+  firstSlideBackground?: string;
+  /** Optional Tailwind class for the first slide logo image, e.g. "pl-6 pt-4" */
+  firstSlideLogoClass?: string;
 }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
@@ -75,12 +80,25 @@ function ImageCarousel({
           {images.map((src, i) => (
             <div
               key={i}
-              className="relative flex-[0_0_100%] min-w-0 flex items-center justify-center p-4"
+              className={`relative flex-[0_0_100%] min-w-0 flex items-center justify-center p-4 ${
+                i === 0 && firstSlideBackground
+                  ? firstSlideBackground.startsWith("bg-")
+                    ? firstSlideBackground
+                    : ""
+                  : ""
+              }`}
+              style={
+                i === 0 &&
+                firstSlideBackground &&
+                !firstSlideBackground.startsWith("bg-")
+                  ? { backgroundColor: firstSlideBackground }
+                  : undefined
+              }
             >
               <img
                 src={src}
                 alt={i === selectedIndex ? alt : ""}
-                className="max-h-full w-auto max-w-full object-contain pointer-events-none select-none rounded-t-lg sm:rounded-l-xl sm:rounded-tr-none"
+                className={`max-h-full w-auto max-w-full object-contain pointer-events-none select-none rounded-t-lg sm:rounded-l-xl sm:rounded-tr-none ${i === 0 && firstSlideLogoClass ? firstSlideLogoClass : ""}`}
                 draggable={false}
               />
             </div>
@@ -175,7 +193,8 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
   const images = rawImages.map(resolveProjectImageUrl);
   const hasDescription = Boolean(project.description?.trim());
   const hasResponsibilities = Boolean(project.responsibilities?.length);
-  const hasCollaborators = project.collaborators.length > 0;
+  const hasAchievements = Boolean(project.achievements?.length);
+  const hasCollaborators = Boolean(project.collaborators?.length);
   const hasTechnologies = Boolean(project.technologies?.length);
 
   const modalContent = (
@@ -184,8 +203,8 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
       className="modal modal-bottom sm:modal-middle"
       onClose={() => setCarouselIndex(0)}
     >
-      {/* Mobile: single scroll container so carousel + details scroll together */}
-      <div className="modal-box relative p-0 w-full max-w-6xl max-h-[89vh] overflow-y-auto sm:overflow-hidden flex flex-col sm:flex-row min-h-0 sm:flex-1">
+      {/* Mobile: single scroll container; Desktop: side-by-side. Responsive max-width for ultrawide */}
+      <div className="modal-box relative p-0 w-full max-w-[95vw] sm:max-w-[90vw] md:max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl 3xl:max-w-[85rem] 4xl:max-w-[90rem] max-h-[89dvh] sm:max-h-[90vh] overflow-y-auto sm:overflow-hidden flex flex-col sm:flex-row min-h-0 sm:flex-1 mx-2 sm:mx-4">
         {/* Mobile-only: close X sticks to top when user scrolls */}
         <div className="sm:hidden sticky top-0 z-20 flex justify-end pt-2 pr-2 pb-2 bg-white min-h-0 shrink-0">
           <form method="dialog">
@@ -210,13 +229,15 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
             </button>
           </form>
         </div>
-        {/* Left: Carousel — fixed height on mobile so whole content scrolls */}
-        <div className="flex-shrink-0 w-full h-[45vh] min-h-[220px] sm:h-auto sm:min-h-0 sm:w-2/5 md:min-w-[280px] bg-white flex flex-col border-b sm:border-b-0 sm:border-r border-base-300 sm:flex-1 xl:min-w-[520px]">
+        {/* Left: Carousel — fixed height on mobile, flexible on desktop */}
+        <div className="flex-shrink-0 w-full h-[40vh] min-h-[200px] min-[480px]:min-h-[220px] sm:h-auto sm:min-h-0 sm:w-2/5 md:min-w-[280px] lg:min-w-[320px] bg-white flex flex-col border-b sm:border-b-0 sm:border-r border-base-300 sm:flex-1 xl:min-w-[400px] 2xl:min-w-[480px] 3xl:min-w-[520px]">
           <ImageCarousel
             images={images}
             alt={project.title}
             value={carouselIndex}
             onIndexChange={setCarouselIndex}
+            firstSlideBackground={project.carouselLogoBackground}
+            firstSlideLogoClass={project.carouselLogoClass}
           />
         </div>
 
@@ -225,7 +246,7 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
           <p className="text-sm text-base-content/60 uppercase tracking-wider">
             {project.category}
           </p>
-          <h2 className="text-2xl sm:text-3xl font-bold mt-1 dark:text-white">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl font-bold mt-1 dark:text-white">
             {project.title}
           </h2>
 
@@ -263,36 +284,19 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
             </div>
           )}
 
-          {/* Collaborators — small section */}
-          {hasCollaborators && (
+          {/* Achievements — bullet list */}
+          {hasAchievements && (
             <div className="mt-4">
-              <p className="font-semibold text-base mb-2">Collaborators</p>
-              <div className="flex flex-wrap gap-2">
-                {project.collaborators.map((c, i) => (
-                  <a
-                    key={i}
-                    href={c.linkedInUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 rounded-full bg-base-200 px-2.5 py-1.5 text-sm sm:text-base hover:bg-base-300 transition-colors"
-                  >
-                    <div className="relative w-8 h-8 rounded-full overflow-hidden flex-shrink-0 bg-base-300">
-                      <Image
-                        src={c.avatar}
-                        alt={c.name}
-                        width={32}
-                        height={32}
-                        className="object-cover w-full h-full"
-                      />
-                    </div>
-                    <span className="max-w-[140px] truncate">{c.name}</span>
-                  </a>
+              <p className="font-semibold text-base mb-2">Achievements</p>
+              <ul className="text-base-content/80 text-sm sm:text-base space-y-1 list-disc list-inside">
+                {project.achievements!.map((a, i) => (
+                  <li key={i}>{a}</li>
                 ))}
-              </div>
+              </ul>
             </div>
           )}
 
-          {/* Technologies — small section */}
+          {/* Technologies — full pill (icon + name) always visible */}
           {hasTechnologies && (
             <div className="mt-4">
               <p className="font-semibold text-base mb-2">Technologies</p>
@@ -312,6 +316,33 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
                     ) : null}
                     <span>{t.name}</span>
                   </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Team — collaborators with pill expansion on desktop */}
+          {hasCollaborators && (
+            <div className="mt-4">
+              <p className="font-semibold text-base mb-2">Team</p>
+              <div className="flex flex-wrap gap-2 sm:flex-nowrap sm:gap-0">
+                {project.collaborators.map((c, i) => (
+                  <a
+                    key={i}
+                    href={c.linkedInUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative inline-flex items-center gap-2 sm:gap-0 overflow-hidden rounded-full bg-base-200 px-2.5 py-1.5 text-sm hover:bg-base-300 transition-[width,min-width] duration-1000 ease-out sm:px-0 sm:py-0 sm:h-10 sm:w-10 sm:min-w-10 sm:hover:w-fit sm:hover:min-w-10 sm:-ml-3 first:ml-0 sm:cursor-pointer sm:ring-2 sm:ring-base-100"
+                    aria-label={c.name}
+                  >
+                    <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden flex-shrink-0 sm:ring-0">
+                      <CollaboratorAvatar src={c.avatar} name={c.name} fill />
+                    </div>
+                    {/* Name: mobile always visible; desktop slides out on hover */}
+                    <span className="max-w-[140px] truncate sm:max-w-0 sm:overflow-hidden sm:opacity-0 sm:flex-shrink-0 sm:pl-3 sm:pr-5 sm:whitespace-nowrap sm:text-sm sm:-translate-x-4 sm:transition-[max-width,opacity,transform] sm:duration-700 sm:ease-out sm:group-hover:max-w-[320px] sm:group-hover:opacity-100 sm:group-hover:translate-x-0">
+                      {c.name}
+                    </span>
+                  </a>
                 ))}
               </div>
             </div>
