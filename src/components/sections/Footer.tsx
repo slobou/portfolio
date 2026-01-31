@@ -1,7 +1,7 @@
 "use client";
 
 import Logo from "../../../public/assets/components/Logo";
-import { useColorScheme } from "@/hooks/useColorScheme";
+import { useColorScheme } from "@/components/providers/ThemeProvider";
 import { useState, useEffect } from "react";
 
 export default function Footer() {

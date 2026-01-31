@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
+import { useColorScheme } from "@/components/providers/ThemeProvider";
 
 interface SplashScreenProps {
   onLoadComplete: () => void;
@@ -9,6 +10,11 @@ interface SplashScreenProps {
   minDisplayTime?: number;
   waitForFullPageLoad?: boolean;
 }
+
+const SPLASH_BG = {
+  dark: "from-[#0d2a2b] via-[#1b4b4c] to-[#0d2a2b]",
+  light: "from-[#225a5b] via-[#1b4b4c] to-[#163d3e]",
+} as const;
 
 const LOGO_PATHS = [
   "M32.2824 458.027L212.014 43.8897L243.006 35.6792L273.999 27.4686L91.4393 465.192H199.576H317.051L338.244 503.667H40.118L32.2824 458.027Z",
@@ -31,7 +37,8 @@ export default function SplashScreen({
   minDisplayTime = 2800,
   waitForFullPageLoad = true,
 }: SplashScreenProps) {
-  const [isLoading, setIsLoading] = useState(true);
+  const { scheme } = useColorScheme();
+  const [phase, setPhase] = useState<"loading" | "fading" | "done">("loading");
 
   useEffect(() => {
     const startTime = Date.now();
@@ -71,10 +78,8 @@ export default function SplashScreen({
       const remainingTime = Math.max(0, minDisplayTime - elapsedTime);
 
       setTimeout(() => {
-        setIsLoading(false);
-        setTimeout(() => {
-          onLoadComplete();
-        }, 400);
+        setPhase("fading");
+        onLoadComplete();
       }, remainingTime);
     });
   }, [mediaUrls, minDisplayTime, onLoadComplete, waitForFullPageLoad]);
@@ -86,7 +91,11 @@ export default function SplashScreen({
     };
   }, []);
 
-  if (!isLoading) {
+  const handleFadeComplete = () => {
+    setPhase("done");
+  };
+
+  if (phase === "done") {
     return null;
   }
 
@@ -98,11 +107,12 @@ export default function SplashScreen({
   return (
     <motion.div
       initial={{ opacity: 1 }}
-      animate={{ opacity: isLoading ? 1 : 0 }}
-      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed inset-0 z-[9999] flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-[#0d2a2b] via-[#1b4b4c] to-[#0d2a2b] ${
-        !isLoading ? "pointer-events-none" : ""
-      }`}
+      animate={{ opacity: phase === "fading" ? 0 : 1 }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      onAnimationComplete={phase === "fading" ? handleFadeComplete : undefined}
+      className={`fixed inset-0 z-[9999] flex min-h-screen w-full items-center justify-center bg-gradient-to-br ${
+        scheme === "dark" ? SPLASH_BG.dark : SPLASH_BG.light
+      } ${phase === "fading" ? "pointer-events-none" : ""}`}
     >
       <div className="flex w-full max-w-md flex-col items-center justify-center gap-8 sm:gap-10 md:gap-12 px-4 sm:px-6 md:px-8">
         <motion.div

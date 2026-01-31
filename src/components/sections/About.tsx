@@ -2,7 +2,7 @@
 
 import DomeGallery from "@/components/blocks/DomeGallery/DomeGallery";
 import CircularGallery from "@/components/blocks/CircularGallery/CircularGallery";
-import { useColorScheme } from "@/hooks/useColorScheme";
+import { useColorScheme } from "@/components/providers/ThemeProvider";
 import { useMemo, useState, useEffect } from "react";
 import {
   getCloudinaryImageUrl,

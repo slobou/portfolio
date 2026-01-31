@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion } from "motion/react";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import CardNav from "@/components/blocks/CardNav/CardNav";
@@ -9,6 +10,29 @@ import Footer from "@/components/sections/Footer";
 import SplashScreen from "@/components/ui/SplashScreen";
 import { getAllGalleryMediaUrls } from "@/utils/galleryMedia";
 import { NAV_MENU_ITEMS } from "@/data/navigation";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.08,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.55,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  },
+};
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -31,20 +55,34 @@ export default function HomePage() {
           waitForFullPageLoad
         />
       )}
-      <main
-        className={`flex flex-col gap-0 transition-opacity duration-500 ${
-          isLoading
-            ? "invisible opacity-0 pointer-events-none"
-            : "visible opacity-100"
+      <motion.main
+        className={`flex flex-col gap-0 ${
+          isLoading ? "invisible pointer-events-none" : "visible"
         }`}
         aria-hidden={isLoading}
+        initial="hidden"
+        animate={isLoading ? "hidden" : "visible"}
+        variants={containerVariants}
       >
-        <CardNav className="fixed" items={NAV_MENU_ITEMS} ease="power3.out" />
-        <Hero />
-        <About />
-        <Projects />
-        <Footer />
-      </main>
+        <motion.div
+          variants={itemVariants}
+          className="fixed inset-x-0 top-0 z-[99]"
+        >
+          <CardNav items={NAV_MENU_ITEMS} ease="power3.out" />
+        </motion.div>
+        <motion.div variants={itemVariants}>
+          <Hero />
+        </motion.div>
+        <motion.div variants={itemVariants}>
+          <About />
+        </motion.div>
+        <motion.div variants={itemVariants}>
+          <Projects />
+        </motion.div>
+        <motion.div variants={itemVariants}>
+          <Footer />
+        </motion.div>
+      </motion.main>
     </div>
   );
 }
