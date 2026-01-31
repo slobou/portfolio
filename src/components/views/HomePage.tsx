@@ -22,7 +22,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="h-screen font-[family-name:var(--font-geist-sans)]">
+    <div className="h-screen font-(family-name:--font-gesit-sans)">
       {isLoading && (
         <SplashScreen
           onLoadComplete={() => setIsLoading(false)}

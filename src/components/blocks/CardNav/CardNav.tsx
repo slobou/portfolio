@@ -206,8 +206,12 @@ const CardNav: React.FC<CardNavProps> = ({
           <a
             href={RESUME_PATH}
             download="Santiago-Lobo-Resume.pdf"
-            className="card-nav-cta-button btn btn-neutral hidden md:inline-flex border-0 rounded-[calc(0.75rem-0.2rem)] px-4 h-full font-semibold cursor-pointer transition-colors duration-300 no-underline"
-            style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
+            className="card-nav-cta-button btn hidden md:inline-flex border-0 rounded-[calc(0.75rem-0.2rem)] px-4 h-full font-semibold cursor-pointer transition-colors duration-300 no-underline bg-teal-800 hover:bg-teal-900 active:bg-teal-950 text-white dark:bg-emerald-800 dark:hover:bg-emerald-900 dark:active:bg-emerald-950 dark:text-white"
+            style={
+              buttonBgColor != null
+                ? { backgroundColor: buttonBgColor, color: buttonTextColor }
+                : undefined
+            }
             aria-label="Download resume (PDF)"
           >
             <ShinyText text="Download Resume" speed={5} />
@@ -215,7 +219,7 @@ const CardNav: React.FC<CardNavProps> = ({
         </div>
 
         <div
-          className={`card-nav-content absolute left-0 right-0 top-[60px] bottom-0 p-2 flex flex-col items-stretch gap-2 justify-start z-[1] ${
+          className={`card-nav-content absolute left-0 right-0 top-[60px] bottom-0 p-2 flex flex-col items-stretch gap-2 justify-start z-1 ${
             isExpanded
               ? "visible pointer-events-auto"
               : "invisible pointer-events-none"
