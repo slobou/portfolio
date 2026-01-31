@@ -1,8 +1,3 @@
-/**
- * Cloudinary utility functions using next-cloudinary
- * Generates optimized URLs for images and videos
- */
-
 import { getCldImageUrl, getCldVideoUrl } from "next-cloudinary";
 
 export interface CloudinaryImageOptions {
@@ -30,12 +25,6 @@ export interface CloudinaryVideoOptions {
   crop?: "fill" | "fit" | "scale" | "crop" | "thumb";
 }
 
-/**
- * Generate a Cloudinary image URL with optimizations
- * @param src - The public ID of the image in Cloudinary (e.g., "portfolio/gallery/Photo1")
- * @param options - Transformation options
- * @returns Optimized Cloudinary URL
- */
 export function getCloudinaryImageUrl(
   src: string,
   options: CloudinaryImageOptions = {},
@@ -81,12 +70,6 @@ export function getCloudinaryImageUrl(
   return getCldImageUrl(imageOptions as Parameters<typeof getCldImageUrl>[0]);
 }
 
-/**
- * Generate a Cloudinary video URL with optimizations
- * @param src - The public ID of the video in Cloudinary (e.g., "portfolio/gallery/Video1")
- * @param options - Transformation options
- * @returns Optimized Cloudinary video URL
- */
 export function getCloudinaryVideoUrl(
   src: string,
   options: CloudinaryVideoOptions = {},
@@ -110,12 +93,6 @@ export function getCloudinaryVideoUrl(
   }
 }
 
-/**
- * Generate a Cloudinary video poster/thumbnail image URL
- * @param src - The public ID of the video in Cloudinary
- * @param options - Transformation options for the poster image
- * @returns Optimized Cloudinary image URL (poster frame from video)
- */
 export function getCloudinaryVideoPoster(
   src: string,
   options: CloudinaryImageOptions = {},
@@ -147,9 +124,6 @@ export function getCloudinaryVideoPoster(
   return `https://res.cloudinary.com/${cloudName}/video/upload/${transformationString}/so_0/${src}.jpg`;
 }
 
-/**
- * Gallery image configurations with optimized settings
- */
 export const GALLERY_IMAGES = {
   thumbnail: {
     width: 400,
@@ -168,9 +142,6 @@ export const GALLERY_IMAGES = {
   },
 };
 
-/**
- * Get both thumbnail and full-size URLs for a media item
- */
 export function getGalleryMediaUrls(
   publicId: string,
   isVideo: boolean = false,
@@ -198,11 +169,6 @@ export function getGalleryMediaUrls(
   };
 }
 
-/**
- * Generate a Cloudinary URL for raw files (PDF, etc.)
- * @param publicId - The public ID of the file in Cloudinary
- * @param options.asAttachment - If true, adds fl_attachment so the file downloads
- */
 export function getCloudinaryRawUrl(
   publicId: string,
   options?: { asAttachment?: boolean },
@@ -216,15 +182,8 @@ export function getCloudinaryRawUrl(
   return `https://res.cloudinary.com/${cloudName}/raw/upload/${prefix}${publicId}`;
 }
 
-/** Public ID for resume PDF in Cloudinary – use when serving resume from Cloudinary */
 export const RESUME_PUBLIC_ID = "portfolio/resume";
 
-/**
- * Resolve a project image source to a URL.
- * - If src starts with "http" or "/", it's treated as an absolute/relative URL and returned as-is.
- * - Otherwise it's treated as a Cloudinary public ID and an optimized image URL is returned.
- * Use this for project modal gallery images so you can mix local paths and Cloudinary IDs.
- */
 export function resolveProjectImageUrl(src: string): string {
   if (src.startsWith("http") || src.startsWith("/")) return src;
   return getCloudinaryImageUrl(src, {

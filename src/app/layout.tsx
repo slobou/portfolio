@@ -5,7 +5,12 @@ import {
   Montserrat_Alternates,
 } from "next/font/google";
 import type { Metadata, Viewport } from "next";
+import { cookies } from "next/headers";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import "./globals.css";
+
+const THEME_COOKIE = "theme";
+const THEMES = ["corporate", "forest"] as const;
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -47,17 +52,33 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const themeCookie = cookieStore.get(THEME_COOKIE)?.value;
+  const initialTheme: "corporate" | "forest" =
+    themeCookie && THEMES.includes(themeCookie as (typeof THEMES)[number])
+      ? (themeCookie as "corporate" | "forest")
+      : "forest";
+
   return (
-    <html lang="en">
+    <html lang="en" data-theme={initialTheme} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var c=document.cookie.match(/theme=([^;]+)/);var t=c?c[1]:localStorage.getItem("theme");document.documentElement.setAttribute("data-theme",t==="corporate"||t==="forest"?t:"forest");})();`,
+          }}
+        />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} ${montserratAlternates.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} ${montserratAlternates.variable} antialiased bg-[#163d3e] dark:bg-[#0d2a2b]`}
       >
-        {children}
+        <ThemeProvider initialTheme={initialTheme}>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

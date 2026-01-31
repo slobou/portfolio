@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { CollaboratorAvatar } from "./CollaboratorAvatar";
 
-/** Detect if a value is a CSS color (hex, rgb, rgba, hsl, hsla) rather than a Tailwind class */
 function isCssColor(value: string): boolean {
   return (
     value.startsWith("#") ||
@@ -25,11 +24,10 @@ interface ProjectCardProps {
   title: string;
   category: string;
   collaborators?: Collaborator[];
-  /** Tailwind class (e.g. "bg-white", "from-X to-Y") or CSS color (e.g. "#000433", "rgb(0,0,0)") */
   backgroundColor?: string;
   backgroundType?: "gradient" | "solid";
   logo?: string;
-  logoClass?: string; // Optional additional class for specific logos
+  logoClass?: string;
   onPlay?: () => void;
 }
 
@@ -52,7 +50,6 @@ export default function ProjectCard({
       backgroundColor.includes("gray-50") ||
       backgroundColor.includes("bg-white"));
 
-  // Determine if we should show logo mode (only logo, no text initially)
   const isLogoMode = logo && !isHovered;
 
   return (
@@ -61,7 +58,6 @@ export default function ProjectCard({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Background - Gradient or Solid; supports hex/CSS colors or Tailwind classes */}
       <div
         className={`absolute inset-0 ${
           useCssColor
@@ -77,7 +73,6 @@ export default function ProjectCard({
         }
       />
 
-      {/* Logo Display - Different behavior based on hover */}
       {logo && (
         <div
           className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-all duration-500 ${
@@ -99,15 +94,12 @@ export default function ProjectCard({
         </div>
       )}
 
-      {/* Content Container - Fades in on hover */}
       <div
         className={`relative z-10 p-4 sm:p-5 md:p-6 h-full flex flex-col justify-between transition-all duration-500 ${
           isLogoMode ? "opacity-0" : "opacity-100"
-        } ${isLightBg ? "text-gray-800" : "text-white"}`}
+        }         ${isLightBg ? "text-gray-800" : "text-white"}`}
       >
-        {/* Top Section - Category */}
         <div className="flex items-start">
-          {/* Category */}
           <p
             className={`text-sm font-light ${
               isLightBg ? "text-gray-600" : "text-gray-200"
@@ -117,21 +109,18 @@ export default function ProjectCard({
           </p>
         </div>
 
-        {/* Middle Section - Title */}
         <div className="flex-1 flex items-center min-h-0">
           <h3 className="text-lg sm:text-xl md:text-2xl font-bold leading-tight line-clamp-2 sm:line-clamp-3">
             {title}
           </h3>
         </div>
 
-        {/* Bottom Section - Avatars and Play Button */}
         <div className="flex items-end justify-between">
-          {/* Collaborators - DaisyUI Avatar Group */}
           {collaborators.length > 0 && (
             <div className="avatar-group -space-x-2">
               {collaborators.slice(0, 3).map((collaborator, index) => (
                 <div key={index} className="avatar placeholder">
-                  <div className="relative rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-2 border-white overflow-hidden shrink-0">
+                  <div className={`relative rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-2 overflow-hidden shrink-0 ${isLightBg ? "border-slate-700" : "border-white"}`}>
                     <CollaboratorAvatar
                       src={collaborator.avatar}
                       name={collaborator.name}
@@ -140,10 +129,9 @@ export default function ProjectCard({
                   </div>
                 </div>
               ))}
-              {/* Show +X indicator if there are more than 3 collaborators */}
               {collaborators.length > 3 && (
                 <div className="avatar placeholder">
-                  <div className="relative rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-2 border-white overflow-hidden shrink-0 bg-black text-white flex items-center justify-center">
+                  <div className={`relative rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-2 overflow-hidden shrink-0 flex items-center justify-center ${isLightBg ? "border-slate-700 bg-slate-800 text-white" : "border-white bg-black text-white"}`}>
                     <span className="text-xs sm:text-sm font-extrabold">
                       +{collaborators.length - 3}
                     </span>

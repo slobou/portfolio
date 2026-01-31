@@ -13,7 +13,6 @@ interface ProjectModalProps {
   projectId: string;
 }
 
-/** Gallery images: use project.images or fallback to [logo] */
 function galleryImages(project: Project): string[] {
   const list = project.images?.length ? project.images : [project.logo];
   return list;
@@ -31,9 +30,7 @@ function ImageCarousel({
   alt: string;
   value?: number;
   onIndexChange?: (index: number) => void;
-  /** Tailwind class or CSS color for the first slide (logo) background, e.g. "bg-neutral-800" or "#04724D" */
   firstSlideBackground?: string;
-  /** Optional Tailwind class for the first slide logo image, e.g. "pl-6 pt-4" */
   firstSlideLogoClass?: string;
 }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -45,7 +42,6 @@ function ImageCarousel({
   const [selectedIndex, setSelectedIndex] = useState(value ?? 0);
   const canSlide = images.length > 1;
 
-  // Sync selected index from Embla to parent
   useEffect(() => {
     if (!emblaApi) return;
     const onSelect = () => {
@@ -53,14 +49,13 @@ function ImageCarousel({
       setSelectedIndex(i);
       onIndexChange?.(i);
     };
-    onSelect(); // initial
+    onSelect();
     emblaApi.on("select", onSelect);
     return () => {
       emblaApi.off("select", onSelect);
     };
   }, [emblaApi, onIndexChange]);
 
-  // Controlled: when parent resets value (e.g. modal closed), scroll carousel there
   useEffect(() => {
     if (emblaApi == null || value === undefined) return;
     if (emblaApi.selectedScrollSnap() !== value) {
@@ -71,7 +66,7 @@ function ImageCarousel({
   if (images.length === 0) return null;
 
   return (
-    <div className="relative w-full flex-1 min-h-[200px] sm:min-h-0 bg-white overflow-hidden rounded-t-lg sm:rounded-l-lg sm:rounded-tr-none">
+    <div className="relative w-full flex-1 min-h-[200px] sm:min-h-0 bg-white dark:bg-base-200 overflow-hidden rounded-t-lg sm:rounded-l-lg sm:rounded-tr-none">
       <div
         ref={emblaRef}
         className="h-full w-full overflow-hidden cursor-grab active:cursor-grabbing touch-pan-y"
@@ -106,7 +101,6 @@ function ImageCarousel({
         </div>
       </div>
 
-      {/* Prev / Next */}
       {canSlide && emblaApi && (
         <>
           <button
@@ -152,7 +146,6 @@ function ImageCarousel({
         </>
       )}
 
-      {/* Dots */}
       {canSlide && (
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
           {images.map((_, i) => (
@@ -203,10 +196,8 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
       className="modal modal-bottom sm:modal-middle"
       onClose={() => setCarouselIndex(0)}
     >
-      {/* Mobile: single scroll container; Desktop: side-by-side. Responsive max-width for ultrawide */}
       <div className="modal-box relative p-0 w-full max-w-[95vw] sm:max-w-[90vw] md:max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl 3xl:max-w-[85rem] 4xl:max-w-[90rem] max-h-[89dvh] sm:max-h-[90vh] overflow-y-auto sm:overflow-hidden flex flex-col sm:flex-row min-h-0 sm:flex-1 mx-2 sm:mx-4">
-        {/* Mobile-only: close X sticks to top when user scrolls */}
-        <div className="sm:hidden sticky top-0 z-20 flex justify-end pt-2 pr-2 pb-2 bg-white min-h-0 shrink-0">
+        <div className="sm:hidden sticky top-0 z-20 flex justify-end pt-2 pr-2 pb-2 bg-white dark:bg-base-200 min-h-0 shrink-0">
           <form method="dialog">
             <button
               type="submit"
@@ -229,8 +220,7 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
             </button>
           </form>
         </div>
-        {/* Left: Carousel — fixed height on mobile, flexible on desktop */}
-        <div className="flex-shrink-0 w-full h-[40vh] min-h-[200px] min-[480px]:min-h-[220px] sm:h-auto sm:min-h-0 sm:w-2/5 md:min-w-[280px] lg:min-w-[320px] bg-white flex flex-col border-b sm:border-b-0 sm:border-r border-base-300 sm:flex-1 xl:min-w-[400px] 2xl:min-w-[480px] 3xl:min-w-[520px]">
+        <div className="flex-shrink-0 w-full h-[40vh] min-h-[200px] min-[480px]:min-h-[220px] sm:h-auto sm:min-h-0 sm:w-2/5 md:min-w-[280px] lg:min-w-[320px] bg-white dark:bg-base-200 flex flex-col border-b sm:border-b-0 sm:border-r border-base-300 sm:flex-1 xl:min-w-[400px] 2xl:min-w-[480px] 3xl:min-w-[520px]">
           <ImageCarousel
             images={images}
             alt={project.title}
@@ -241,16 +231,14 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
           />
         </div>
 
-        {/* Right: Details — content height on mobile (so whole modal scrolls), scrollable on desktop */}
         <div className="flex-none sm:flex-1 flex flex-col min-h-0 overflow-hidden sm:overflow-y-auto p-4 sm:p-6">
           <p className="text-sm text-base-content/60 uppercase tracking-wider">
             {project.category}
           </p>
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl font-bold mt-1 dark:text-white">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl font-bold mt-1 text-slate-900 dark:text-white">
             {project.title}
           </h2>
 
-          {/* Description — collapsible on mobile */}
           {hasDescription && (
             <div className="mt-4">
               <button
@@ -272,7 +260,6 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
             </div>
           )}
 
-          {/* My responsibilities — bullet list below description */}
           {hasResponsibilities && (
             <div className="mt-4">
               <p className="font-semibold text-base mb-2">Responsibilities</p>
@@ -284,7 +271,6 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
             </div>
           )}
 
-          {/* Achievements — bullet list */}
           {hasAchievements && (
             <div className="mt-4">
               <p className="font-semibold text-base mb-2">Achievements</p>
@@ -296,7 +282,6 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
             </div>
           )}
 
-          {/* Technologies — full pill (icon + name) always visible */}
           {hasTechnologies && (
             <div className="mt-4">
               <p className="font-semibold text-base mb-2">Technologies</p>
@@ -321,7 +306,6 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
             </div>
           )}
 
-          {/* Team — collaborators with pill expansion on desktop */}
           {hasCollaborators && (
             <div className="mt-4">
               <p className="font-semibold text-base mb-2">Team</p>
@@ -338,7 +322,6 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
                     <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden flex-shrink-0 sm:ring-0">
                       <CollaboratorAvatar src={c.avatar} name={c.name} fill />
                     </div>
-                    {/* Name: mobile always visible; desktop slides out on hover */}
                     <span className="max-w-[140px] truncate sm:max-w-0 sm:overflow-hidden sm:opacity-0 sm:flex-shrink-0 sm:pl-3 sm:pr-5 sm:whitespace-nowrap sm:text-sm sm:-translate-x-4 sm:transition-[max-width,opacity,transform] sm:duration-700 sm:ease-out sm:group-hover:max-w-[320px] sm:group-hover:opacity-100 sm:group-hover:translate-x-0">
                       {c.name}
                     </span>
@@ -348,7 +331,6 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
             </div>
           )}
 
-          {/* Actions — sticky at bottom on mobile */}
           <div className="mt-auto hidden sm:flex pt-6 flex-col-reverse sm:flex-row gap-2 sm:justify-end">
             <form method="dialog" className="contents">
               <button type="submit" className="btn btn-ghost sm:btn-accent">

@@ -2,13 +2,11 @@
 
 import React, { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-// use your own icon import if react-icons is not available
 import { GoArrowUpRight } from "react-icons/go";
 import Logo from "../../../../public/assets/components/Logo";
 import StarBorder from "@/components/blocks/StarBorder/StarBorder";
 import ShinyText from "@/components/blocks/TextAnimations/ShinyText/ShinyText";
 
-/** Local path to the resume PDF in public/assets */
 const RESUME_PATH = "/assets/Resume - Santiago Lobo.pdf";
 
 type CardNavLink = {
@@ -101,7 +99,7 @@ const CardNav: React.FC<CardNavProps> = ({
     tl.to(
       cardsRef.current,
       { y: 0, opacity: 1, duration: 0.4, ease, stagger: 0.08 },
-      "-=0.1",
+      "-=0.1"
     );
 
     return tl;
@@ -164,19 +162,19 @@ const CardNav: React.FC<CardNavProps> = ({
 
   return (
     <div
-      className={`card-nav-container absolute left-1/2 -translate-x-1/2 w-[92%] sm:w-[90%] md:w-[88%] max-w-[800px] 2xl:max-w-[880px] 3xl:max-w-[920px] 4xl:max-w-[960px] z-[99] top-[0.8em] sm:top-[1em] md:top-[1.5em] lg:top-[2em] xl:top-[2em] px-2 sm:px-0 ${className}`}
+      className={`card-nav-container absolute left-1/2 -translate-x-1/2 w-[92%] sm:w-[90%] md:w-[88%] max-w-[800px] 2xl:max-w-[880px] 3xl:max-w-[920px] 4xl:max-w-[960px] z-99 top-[0.8em] sm:top-[1em] md:top-[1.5em] lg:top-[2em] xl:top-[2em] px-2 sm:px-0 ${className}`}
     >
       <nav
         ref={navRef}
         className={`card-nav ${
           isExpanded ? "open" : ""
-        } block h-[60px] p-0 rounded-xl shadow-md relative overflow-hidden will-change-[height] dark:bg-black bg-white `}
+        } block h-[60px] p-0 rounded-xl shadow-md relative overflow-hidden will-change-[height] dark:bg-black bg-white transition-colors duration-200 ease-out`}
       >
-        <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between p-2 pl-[1.1rem] z-[2]">
+        <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between p-2 pl-[1.1rem] z-2">
           <div
             className={`hamburger-menu ${
               isHamburgerOpen ? "open" : ""
-            } group h-full flex flex-col items-center justify-center cursor-pointer order-2 md:order-none dark:text-white text-black relative w-[40px]`}
+            } group h-full flex flex-col items-center justify-center cursor-pointer order-2 md:order-0 dark:text-white text-black relative w-[40px] transition-colors duration-200 ease-out`}
             onClick={toggleMenu}
             role="button"
             aria-label={isExpanded ? "Close menu" : "Open menu"}
@@ -197,27 +195,23 @@ const CardNav: React.FC<CardNavProps> = ({
               } group-hover:opacity-75`}
             />
           </div>
-          <div className="logo-container flex items-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 order-1 md:order-none font-[family-name:var(--font-montserrat)]">
+          <div className="logo-container flex items-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 order-1 md:order-0 font-[--font-montserrat] transition-colors duration-200 ease-out">
             <Logo
               width={48}
               height={48}
-              className="dark:fill-white fill-black"
+              className="dark:text-slate-200 text-gray-400"
             />
-            {/* <div className="flex flex-col ">
-              <p className="text-black dark:text-white text-[16px] md:text-[20px] font-bold">
-                Santiago
-              </p>
-              <p className="text-black text-[16px] md:text-[20px] font-bold">
-                Lobo
-              </p>
-            </div> */}
           </div>
 
           <a
             href={RESUME_PATH}
             download="Santiago-Lobo-Resume.pdf"
-            className="card-nav-cta-button btn btn-neutral hidden md:inline-flex border-0 rounded-[calc(0.75rem-0.2rem)] px-4 h-full font-semibold cursor-pointer transition-colors duration-300 no-underline"
-            style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
+            className="card-nav-cta-button btn hidden md:inline-flex border-0 rounded-[calc(0.75rem-0.2rem)] px-4 h-full font-semibold cursor-pointer transition-colors duration-200 ease-out no-underline bg-teal-800 hover:bg-teal-900 active:bg-teal-950 text-white dark:bg-emerald-900 dark:hover:bg-emerald-950 dark:active:bg-emerald-950 dark:text-white"
+            style={
+              buttonBgColor != null
+                ? { backgroundColor: buttonBgColor, color: buttonTextColor }
+                : undefined
+            }
             aria-label="Download resume (PDF)"
           >
             <ShinyText text="Download Resume" speed={5} />
@@ -225,7 +219,7 @@ const CardNav: React.FC<CardNavProps> = ({
         </div>
 
         <div
-          className={`card-nav-content absolute left-0 right-0 top-[60px] bottom-0 p-2 flex flex-col items-stretch gap-2 justify-start z-[1] ${
+          className={`card-nav-content absolute left-0 right-0 top-[60px] bottom-0 p-2 flex flex-col items-stretch gap-2 justify-start z-1 ${
             isExpanded
               ? "visible pointer-events-auto"
               : "invisible pointer-events-none"

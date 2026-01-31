@@ -1,15 +1,14 @@
 @import "tailwindcss";
+@custom-variant dark (&&:where([data-theme="forest"], [data-theme="forest"] *));
+
 @plugin "daisyui" {
-  themes:
-    corporate --default,
-    forest --prefersdark;
+  themes: forest --default, corporate --preferslight;
 }
 
 @theme {
-  /* Custom breakpoints for ultrawide - must be ascending (Tailwind: sm 640, md 768, lg 1024, xl 1280, 2xl 1536) */
-  --breakpoint-3xl: 100rem; /* 1600px - large desktop */
-  --breakpoint-4xl: 120rem; /* 1920px - ultrawide / Full HD */
-  --breakpoint-5xl: 160rem; /* 2560px - large ultrawide / QHD */
+  --breakpoint-3xl: 100rem;
+  --breakpoint-4xl: 120rem;
+  --breakpoint-5xl: 160rem;
   --animate-star-movement-bottom: star-movement-bottom linear infinite alternate;
   --animate-star-movement-top: star-movement-top linear infinite alternate;
   --animate-shine: shine linear infinite;
@@ -67,17 +66,18 @@
 }
 
 .divider {
-  --divider-color: var(--color-teal-800);
+  --divider-color: var(--color-teal-700);
+  background-color: var(--divider-color);
+  height: 4px;
+  border-radius: 2px;
 }
 
 .dg-scroll-lock {
   overflow: hidden;
 }
 
-/* Fade-out on left, right, top and bottom so all edges blend instead of hard cut */
 .gallery-edge-fade {
-  -webkit-mask-image:
-    linear-gradient(
+  -webkit-mask-image: linear-gradient(
       to right,
       transparent 0%,
       black 12%,
@@ -92,8 +92,7 @@
       transparent 100%
     );
   -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(
+  mask-image: linear-gradient(
       to right,
       transparent 0%,
       black 12%,

@@ -19,13 +19,9 @@ interface CollaboratorAvatarProps {
   name: string;
   size?: number;
   className?: string;
-  /** When true, image fills parent; parent must have position: relative and explicit size */
   fill?: boolean;
 }
 
-/**
- * Avatar for collaborators. Falls back to initials in a circle when the image fails to load.
- */
 export function CollaboratorAvatar({
   src,
   name,
