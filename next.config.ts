@@ -33,6 +33,11 @@ const nextConfig: NextConfig = {
         hostname: "res.cloudinary.com",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "instagram.fsjo10-1.fna.fbcdn.net",
+        pathname: "**",
+      },
     ],
   },
 };
