@@ -6,6 +6,10 @@
 }
 
 @theme {
+  /* Custom breakpoints for ultrawide - must be ascending (Tailwind: sm 640, md 768, lg 1024, xl 1280, 2xl 1536) */
+  --breakpoint-3xl: 100rem; /* 1600px - large desktop */
+  --breakpoint-4xl: 120rem; /* 1920px - ultrawide / Full HD */
+  --breakpoint-5xl: 160rem; /* 2560px - large ultrawide / QHD */
   --animate-star-movement-bottom: star-movement-bottom linear infinite alternate;
   --animate-star-movement-top: star-movement-top linear infinite alternate;
   --animate-shine: shine linear infinite;
@@ -46,6 +50,22 @@
   scroll-behavior: smooth;
 }
 
+/* Safe area insets for devices with notches / rounded corners */
+@supports (padding: env(safe-area-inset-top)) {
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-area-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  .safe-area-right {
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
 .divider {
   --divider-color: var(--color-teal-800);
 }
@@ -56,7 +76,8 @@
 
 /* Fade-out on left, right, top and bottom so all edges blend instead of hard cut */
 .gallery-edge-fade {
-  -webkit-mask-image: linear-gradient(
+  -webkit-mask-image:
+    linear-gradient(
       to right,
       transparent 0%,
       black 12%,
@@ -71,7 +92,8 @@
       transparent 100%
     );
   -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(
+  mask-image:
+    linear-gradient(
       to right,
       transparent 0%,
       black 12%,
