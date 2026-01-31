@@ -8,7 +8,7 @@
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/slobou)
 [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:slobo.coding@gmail.com)
 
-> *"Fulfill your dreams while helping others with a smile."*
+> _"Fulfill your dreams while helping others with a smile."_
 
 </div>
 
@@ -66,6 +66,7 @@ My journey spans from coding innovative solutions to leading initiatives that dr
 ## Featured Projects
 
 ### BOSS.Tech
+
 **Frontend Engineer** · Dec 2024 – Present
 
 The first Business SuperApp — a unified platform with contact management, real-time chat, AI-powered features, and financial tools for SMB customers. Built the MiniApp platform for modular application functionality.
@@ -75,11 +76,13 @@ The first Business SuperApp — a unified platform with contact management, real
 ---
 
 ### WALL-IT
+
 **Co-Founder & Developer**
 
 FinTech platform helping young adults enhance their financial well-being and boost their financial knowledge. Built web, desktop, and mobile applications.
 
 **Achievements:**
+
 - 2nd place — Expotec 2023 Science Fair
 - Best idea with business potential — Expotec 2023
 - Special collaboration with Contraloría General de la República
@@ -89,6 +92,7 @@ FinTech platform helping young adults enhance their financial well-being and boo
 ---
 
 ### Turik
+
 **Technical Mentor**
 
 Digital directory promoting local Costa Rican businesses and culture. Mentored the development team and provided technical support.
@@ -100,11 +104,13 @@ Digital directory promoting local Costa Rican businesses and culture. Mentored t
 ---
 
 ### F1 In Schools — Nintai Nexus
+
 **Team Leader & Project Manager**
 
 International Formula 1 competition introducing students to STEM principles. Led a team to develop a competitive model car with advanced aerodynamics.
 
 **Achievements:**
+
 - STEM Challenge Champion 2024 Development Class
 - Best Enterprise Portfolio
 - Best Design and Engineering Portfolio
@@ -114,11 +120,11 @@ International Formula 1 competition introducing students to STEM principles. Led
 
 ## Leadership & Organizations
 
-| Organization | Role | Period |
-|-------------|------|--------|
-| **Startup Supernovas** | President | Q1 2025 – Q3 2025 |
-| **SKEMClub** | President | 2024 |
-| **CEDES Radio** | Alumni Coordinator & Host | 2023 – 2024 |
+| Organization           | Role                      | Period            |
+| ---------------------- | ------------------------- | ----------------- |
+| **Startup Supernovas** | President                 | Q1 2025 – Q3 2025 |
+| **SKEMClub**           | President                 | 2024              |
+| **CEDES Radio**        | Alumni Coordinator & Host | 2023 – 2024       |
 
 **Notable Partnerships:** Microsoft, NASA Program, CINDE
 
@@ -134,18 +140,6 @@ Don Bosco Technical High School · 2019 – 2024
 
 ---
 
-## GitHub Stats
-
-<div align="center">
-
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=slobou&show_icons=true&theme=algolia&hide_border=true)
-
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=slobou&layout=compact&theme=algolia&hide_border=true)
-
-</div>
-
----
-
 ## Portfolio
 
 This repository contains my personal portfolio website built with modern web technologies.
@@ -157,24 +151,6 @@ This repository contains my personal portfolio website built with modern web tec
 - **Animations:** Motion (Framer Motion), GSAP
 - **Media:** Cloudinary for optimized image/video delivery
 - **Components:** Custom galleries (DomeGallery, CircularGallery), animated text, and more
-
-### Getting Started
-
-```bash
-# Install dependencies
-npm install
-
-# Run development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
-```
-
-Open [http://localhost:3000](http://localhost:3000) to view the portfolio.
 
 ---
 
