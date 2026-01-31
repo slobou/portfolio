@@ -6,12 +6,10 @@ import { motion } from "motion/react";
 interface SplashScreenProps {
   onLoadComplete: () => void;
   mediaUrls: string[];
-  minDisplayTime?: number; // Minimum time to show splash (ms)
-  /** If true, also wait for window.load (document + all resources) before considering load complete. Default true. */
+  minDisplayTime?: number;
   waitForFullPageLoad?: boolean;
 }
 
-// Logo paths from Logo.svg - for path drawing animation
 const LOGO_PATHS = [
   "M32.2824 458.027L212.014 43.8897L243.006 35.6792L273.999 27.4686L91.4393 465.192H199.576H317.051L338.244 503.667H40.118L32.2824 458.027Z",
   "M212.994 226.573C241.183 237.557 263.733 258.986 275.682 286.144C287.631 313.302 288 343.966 276.709 371.39C265.418 398.813 243.391 420.75 215.474 432.375C187.557 443.999 156.037 444.358 127.847 433.374L149.134 381.674C163.229 387.166 178.989 386.986 192.947 381.174C206.906 375.362 217.919 364.394 223.565 350.682C229.21 336.97 229.026 321.638 223.051 308.059C217.077 294.48 205.802 283.766 191.707 278.273L212.994 226.573Z",
@@ -81,7 +79,6 @@ export default function SplashScreen({
     });
   }, [mediaUrls, minDisplayTime, onLoadComplete, waitForFullPageLoad]);
 
-  // Hide scrollbar while splash is active
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -93,7 +90,6 @@ export default function SplashScreen({
     return null;
   }
 
-  // TM path (index 3): much thinner stroke weight, scaled down so it reads lighter
   const TM_INDEX = 3;
   const strokeColor = (i: number) =>
     i === TM_INDEX ? "rgba(255, 255, 255, 0.88)" : "white";
@@ -109,7 +105,6 @@ export default function SplashScreen({
       }`}
     >
       <div className="flex w-full max-w-md flex-col items-center justify-center gap-8 sm:gap-10 md:gap-12 px-4 sm:px-6 md:px-8">
-        {/* Logo with path drawing animation */}
         <motion.div
           className="relative flex items-center justify-center"
           initial={{ opacity: 0, scale: 0.96 }}
@@ -123,7 +118,6 @@ export default function SplashScreen({
             className="w-20 h-auto sm:w-24 sm:h-auto md:w-28 md:h-auto lg:w-32 max-w-[140px] drop-shadow-[0_0_24px_rgba(0,181,87,0.2)]"
             preserveAspectRatio="xMidYMid meet"
           >
-            {/* Stroke-drawing layer: each path traces on with pathLength */}
             {LOGO_PATHS.map((d, i) =>
               i === TM_INDEX ? (
                 <g
@@ -206,7 +200,6 @@ export default function SplashScreen({
           </svg>
         </motion.div>
 
-        {/* Name - fades in after logo starts */}
         <motion.div
           className="flex flex-col items-center gap-2"
           initial={{ opacity: 0, y: 8 }}

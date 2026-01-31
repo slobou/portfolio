@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-/** Breakpoints aligned with Tailwind (sm 640, md 768, lg 1024, xl 1280, 2xl 1536, 3xl 1440, 4xl 1920, 5xl 2560) */
 export const BREAKPOINTS = {
   mobile: 0,
   sm: 640,
@@ -16,15 +15,10 @@ export const BREAKPOINTS = {
 export interface ScreenSize {
   width: number;
   height: number;
-  /** < 640px - phones */
   isMobile: boolean;
-  /** 640–1023px - tablets */
   isTablet: boolean;
-  /** 1024–1279px - laptops */
   isLaptop: boolean;
-  /** 1280–1919px - desktops */
   isDesktop: boolean;
-  /** >= 1920px - ultrawide */
   isUltrawide: boolean;
 }
 

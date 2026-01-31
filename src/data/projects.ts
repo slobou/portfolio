@@ -4,7 +4,6 @@ interface Collaborator {
   linkedInUrl?: string;
 }
 
-/** Optional: icon URL (e.g. from devicons or simple-icons CDN) */
 export interface Technology {
   name: string;
   iconUrl?: string;
@@ -15,30 +14,20 @@ export interface Project {
   title: string;
   category: string;
   collaborators: Collaborator[];
-  /** Tailwind class (e.g. "bg-white") or CSS color: hex (#000433), rgb(), rgba(), hsl(), hsla() */
   backgroundColor: string;
   backgroundType: "gradient" | "solid";
-  /** Logo URL or Cloudinary public ID (e.g. "portfolio/projects/myself-logo") */
   logo: string;
   logoClass?: string;
-  /** Long-form project description for the modal (optional) */
   description?: string;
-  /** Gallery images for the modal. Each entry can be a URL (http or /) or a Cloudinary public ID (e.g. "portfolio/projects/myself-1"). Falls back to [logo] if absent. */
   images?: string[];
-  /** Modal carousel: background for the first slide (logo). Tailwind class e.g. "bg-neutral-800" or "bg-[#04724D]". Use when the logo is light on white. */
   carouselLogoBackground?: string;
-  /** Modal carousel: optional Tailwind class for the first slide logo image (e.g. "pl-6 pt-4", "object-left"). */
   carouselLogoClass?: string;
-  /** Tech stack for the modal (optional) */
   technologies?: Technology[];
-  /** What you did / your responsibilities (optional). If length matches gallery slides, one is shown per dot; otherwise all are shown as a list. */
   responsibilities?: string[];
-  /** Achievements / highlights for the modal (optional), shown as a bullet list. */
   achievements?: string[];
 }
 
 export const projects: Project[] = [
-  // 1. BOSS.Tech
   {
     id: "boss-tech",
     title: "BOSS.Tech",
@@ -71,7 +60,6 @@ export const projects: Project[] = [
       "Photo5_bfswlp",
     ],
   },
-  // 2. MySelf
   {
     id: "myself",
     title: "MySelf",
@@ -130,7 +118,6 @@ export const projects: Project[] = [
     logo: "/assets/images/projects/Myself.svg",
     achievements: ["1st place in the Expotec 2022 Science Fair"],
   },
-  // 3. WALL-IT
   {
     id: "wall-it",
     title: "WALL-IT",
@@ -201,7 +188,6 @@ export const projects: Project[] = [
       "480584151_657550379948718_3774104364415340793_n_v5gl4w",
     ],
   },
-  // 4. KOIRED
   {
     id: "koired",
     title: "Koired",
@@ -252,7 +238,6 @@ export const projects: Project[] = [
       "KOIRED_iwnxed",
     ],
   },
-  // 5. Turik
   {
     id: "turik",
     title: "Turik",
@@ -313,7 +298,6 @@ export const projects: Project[] = [
       "WhatsApp_Image_2026-01-28_at_17.35.53_dvxkbg",
     ],
   },
-  // 6. Startup Supernovas
   {
     id: "startup-supernovas",
     title: "Startup Supernovas",
@@ -336,7 +320,6 @@ export const projects: Project[] = [
       "2026sts_killr4",
     ],
   },
-  // 7. B-World
   {
     id: "b-world",
     title: "B-World",
@@ -375,7 +358,6 @@ export const projects: Project[] = [
       "Screenshot_2026-01-30_at_2.18.59_AM_w47cqu",
     ],
   },
-  // 8. BrandNest
   {
     id: "brandnest",
     title: "BrandNest",
@@ -439,7 +421,6 @@ export const projects: Project[] = [
       "BrandNest_-_Pitch_1_qr8pwb",
     ],
   },
-  // 9. F1 In Schools
   {
     id: "f1-in-schools",
     title: "F1 In Schools - Nintai Nexus",
@@ -516,7 +497,6 @@ export const projects: Project[] = [
     backgroundType: "solid",
     logo: "/assets/images/projects/F1_in_Schools.png",
   },
-  // 10. SKEMClub
   {
     id: "skemclub",
     title: "SKEMClub",
@@ -582,7 +562,6 @@ export const projects: Project[] = [
       "PHOTO-2024-03-11-17-45-39_ymxauw",
     ],
   },
-  // 11. CEDES Radio
   {
     id: "cedes-radio",
     title: "CEDES Radio",

@@ -1,10 +1,12 @@
 "use client";
 
 import Logo from "../../../public/assets/components/Logo";
-import { useState, useEffect, useRef } from "react";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { useState, useEffect } from "react";
 
 export default function Footer() {
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const { scheme, toggleScheme } = useColorScheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,7 +23,6 @@ export default function Footer() {
 
   const scrollToSection = (sectionId: string) => {
     if (sectionId === "contact") {
-      // Scroll to footer for contact
       const footer = document.querySelector("footer");
       if (footer) {
         footer.scrollIntoView({ behavior: "smooth" });
@@ -94,14 +95,12 @@ export default function Footer() {
   return (
     <div className="bg-slate-50 dark:bg-base-200 w-full border-t border-slate-200 dark:border-gray-700 z-50 relative">
       <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 max-w-7xl 3xl:max-w-[90rem] 4xl:max-w-[100rem] py-8 sm:py-10 md:py-12 lg:py-14">
-        {/* Logo */}
         <div className="flex justify-center mb-4 sm:mb-5 md:mb-6">
           <div className="text-teal-600 dark:text-teal-500 w-14 h-14 sm:w-16 sm:h-16 md:w-[4.5rem] md:h-[4.5rem] lg:w-20 lg:h-20">
             <Logo width={82} height={82} className="w-full h-full" />
           </div>
         </div>
 
-        {/* Site Sections */}
         <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 mb-4 sm:mb-5 md:mb-6">
           {siteSections.map((section) => (
             <button
@@ -114,7 +113,25 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Social Media Icons */}
+        <div className="flex justify-center mb-4 sm:mb-5 md:mb-6">
+          <button
+            type="button"
+            onClick={toggleScheme}
+            className="w-9 h-9 rounded-full border border-slate-300 dark:border-gray-600 flex items-center justify-center text-slate-700 dark:text-gray-200 hover:border-teal-500 dark:hover:border-teal-400 hover:text-teal-600 dark:hover:text-teal-400 transition-all duration-200 cursor-pointer"
+            aria-label={scheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {scheme === "dark" ? (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            )}
+          </button>
+        </div>
+
         <div className="flex justify-center items-center gap-2 sm:gap-3 mb-4 sm:mb-5 md:mb-6">
           {socialLinks.map((social) => (
             <a
@@ -130,15 +147,12 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Divider */}
         <div className="border-t border-slate-200 dark:border-gray-700 pt-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-3">
-            {/* Copyright */}
             <div className="text-xs text-slate-500 dark:text-gray-500">
               <span>© {new Date().getFullYear()} Santiago Lobo</span>
             </div>
 
-            {/* Back to Top */}
             {showBackToTop && (
               <button
                 onClick={scrollToTop}

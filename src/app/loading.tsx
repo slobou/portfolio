@@ -1,7 +1,3 @@
-/**
- * Route-level loading UI. Styled to match SplashScreen so users see one
- * continuous splash until the site is fully loaded—no spinner or loading component.
- */
 export default function Loading() {
   return (
     <div

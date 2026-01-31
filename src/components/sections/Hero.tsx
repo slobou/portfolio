@@ -7,7 +7,7 @@ export default function Hero() {
       id="hero"
       className="hero max-w-screen min-h-dvh sm:min-h-screen h-screen bg-radial from-[#2a6b6c] to-[#1b4b4c] dark:from-[#1b4b4c] dark:to-[#0d2a2b] flex items-center justify-center z-50 px-4 sm:px-6 md:px-8"
     >
-      <div className="hero-content w-full max-w-6xl h-full flex flex-col items-center justify-center gap-6 sm:gap-8 md:gap-10 lg:gap-12 py-8 sm:py-12">
+      <div className="hero-content w-full max-w-6xl h-full flex flex-col items-center justify-center gap-6 sm:gap-8 md:gap-10 lg:gap-12 py-8 sm:py-12 landscape:pt-20 landscape:sm:pt-24">
         <div className="avatar shrink-0">
           <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-24 lg:h-24 rounded-full ring-2 ring-white/30 dark:ring-white/20 overflow-hidden">
             <img
@@ -22,7 +22,6 @@ export default function Hero() {
           <h1 className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl 2xl:text-5xl font-bold text-white text-center">
             Hello, I am
           </h1>
-          {/* Prevent line wrapping with whitespace-nowrap and responsive text sizing */}
           <div className="w-full flex items-center justify-center overflow-x-auto overflow-y-hidden max-w-full">
             <RotatingText
               mainClassName="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl 2xl:text-5xl font-bold text-white text-center justify-center items-center whitespace-nowrap"

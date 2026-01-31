@@ -2,13 +2,11 @@
 
 import React, { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-// use your own icon import if react-icons is not available
 import { GoArrowUpRight } from "react-icons/go";
 import Logo from "../../../../public/assets/components/Logo";
 import StarBorder from "@/components/blocks/StarBorder/StarBorder";
 import ShinyText from "@/components/blocks/TextAnimations/ShinyText/ShinyText";
 
-/** Local path to the resume PDF in public/assets */
 const RESUME_PATH = "/assets/Resume - Santiago Lobo.pdf";
 
 type CardNavLink = {
@@ -201,16 +199,8 @@ const CardNav: React.FC<CardNavProps> = ({
             <Logo
               width={48}
               height={48}
-              className="dark:fill-white fill-black"
+              className="dark:fill-white fill-slate-600"
             />
-            {/* <div className="flex flex-col ">
-              <p className="text-black dark:text-white text-[16px] md:text-[20px] font-bold">
-                Santiago
-              </p>
-              <p className="text-black text-[16px] md:text-[20px] font-bold">
-                Lobo
-              </p>
-            </div> */}
           </div>
 
           <a

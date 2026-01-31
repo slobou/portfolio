@@ -1,14 +1,9 @@
-/**
- * Utility to get all gallery media URLs for preloading
- */
-
 import {
   getCloudinaryImageUrl,
   getCloudinaryVideoUrl,
   GALLERY_IMAGES,
 } from "./cloudinary";
 
-// Cloudinary public IDs - shared with About component
 export const GALLERY_PUBLIC_IDS = {
   images: [
     "Photo1_pqk84i",
@@ -31,22 +26,14 @@ export const GALLERY_PUBLIC_IDS = {
   videos: ["Video1_bze9b2", "video2_sfwvss", "video3_yla2d5"],
 };
 
-/**
- * Get all media URLs that need to be preloaded
- * Returns both thumbnails and full-size versions for optimal loading
- */
 export function getAllGalleryMediaUrls(): string[] {
   const urls: string[] = [];
-
-  // Add critical images first (hero, etc.)
   urls.push("/assets/images/PhotoHero.jpg");
 
-  // Add image thumbnails (priority - shown first)
   GALLERY_PUBLIC_IDS.images.forEach((id) => {
     urls.push(getCloudinaryImageUrl(id, GALLERY_IMAGES.thumbnail));
   });
 
-  // Add video thumbnails
   GALLERY_PUBLIC_IDS.videos.forEach((id) => {
     urls.push(
       getCloudinaryVideoUrl(id, {
@@ -63,7 +50,6 @@ export function getAllGalleryMediaUrls(): string[] {
     urls.push(getCloudinaryImageUrl(id, GALLERY_IMAGES.fullSize));
   });
 
-  // Add full-size videos (load in background, lower priority)
   GALLERY_PUBLIC_IDS.videos.forEach((id) => {
     urls.push(
       getCloudinaryVideoUrl(id, {

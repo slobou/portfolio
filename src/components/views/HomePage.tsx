@@ -31,7 +31,6 @@ export default function HomePage() {
           waitForFullPageLoad
         />
       )}
-      {/* Rendered but hidden until splash completes—all components load in background so the site is ready when we reveal. */}
       <main
         className={`flex flex-col gap-0 transition-opacity duration-500 ${
           isLoading

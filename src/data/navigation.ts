@@ -1,4 +1,3 @@
-/** Shape compatible with CardNavItem; kept in data layer to avoid coupling to components. */
 export type NavMenuItem = {
   label: string;
   bgColor: string;
@@ -6,18 +5,16 @@ export type NavMenuItem = {
   links: { label: string; href: string; ariaLabel: string }[];
 };
 
-/** Contact URLs – update email to your real address. */
 const CONTACT = {
   linkedIn: "https://www.linkedin.com/in/santiago-lobo-ulloa",
   github: "https://github.com/slobou",
   email: "slobo.coding@gmail.com",
 } as const;
 
-/** Teal/green palette to match the resume button and site accent. */
 const CARD_COLORS = {
-  about: { bg: "#19362d", text: "#fff" }, // teal-700
-  experience: { bg: "#154134FF", text: "#fff" }, // teal-600
-  contact: { bg: "#234D40FF", text: "#fff" }, // teal-800
+  about: { bg: "#19362d", text: "#fff" },
+  experience: { bg: "#154134FF", text: "#fff" },
+  contact: { bg: "#234D40FF", text: "#fff" },
 } as const;
 
 export const NAV_MENU_ITEMS: NavMenuItem[] = [
