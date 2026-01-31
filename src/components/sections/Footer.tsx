@@ -92,11 +92,11 @@ export default function Footer() {
   ];
 
   return (
-    <div className="dark:bg-base-200 bg-black w-full border-t border-gray-800 dark:border-gray-700 z-50 relative">
+    <div className="bg-slate-50 dark:bg-base-200 w-full border-t border-slate-200 dark:border-gray-700 z-50 relative">
       <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 max-w-7xl 3xl:max-w-[90rem] 4xl:max-w-[100rem] py-8 sm:py-10 md:py-12 lg:py-14">
         {/* Logo */}
         <div className="flex justify-center mb-4 sm:mb-5 md:mb-6">
-          <div className="text-teal-400 dark:text-teal-500 w-14 h-14 sm:w-16 sm:h-16 md:w-[4.5rem] md:h-[4.5rem] lg:w-20 lg:h-20">
+          <div className="text-teal-600 dark:text-teal-500 w-14 h-14 sm:w-16 sm:h-16 md:w-[4.5rem] md:h-[4.5rem] lg:w-20 lg:h-20">
             <Logo width={82} height={82} className="w-full h-full" />
           </div>
         </div>
@@ -107,7 +107,7 @@ export default function Footer() {
             <button
               key={section.id}
               onClick={() => scrollToSection(section.id)}
-              className="text-white dark:text-gray-200 hover:text-teal-400 dark:hover:text-teal-400 transition-colors duration-200 text-sm md:text-base font-medium cursor-pointer"
+              className="text-slate-700 dark:text-gray-200 hover:text-teal-600 dark:hover:text-teal-400 transition-colors duration-200 text-sm md:text-base font-medium cursor-pointer"
             >
               {section.label}
             </button>
@@ -122,7 +122,7 @@ export default function Footer() {
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full border border-white/30 dark:border-gray-600 flex items-center justify-center text-white dark:text-gray-200 hover:border-teal-400 dark:hover:border-teal-400 hover:text-teal-400 dark:hover:text-teal-400 transition-all duration-200"
+              className="w-9 h-9 rounded-full border border-slate-300 dark:border-gray-600 flex items-center justify-center text-slate-700 dark:text-gray-200 hover:border-teal-500 dark:hover:border-teal-400 hover:text-teal-600 dark:hover:text-teal-400 transition-all duration-200"
               aria-label={social.name}
             >
               {social.icon}
@@ -131,10 +131,10 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-gray-800 dark:border-gray-700 pt-4">
+        <div className="border-t border-slate-200 dark:border-gray-700 pt-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-3">
             {/* Copyright */}
-            <div className="text-xs text-gray-400 dark:text-gray-500">
+            <div className="text-xs text-slate-500 dark:text-gray-500">
               <span>© {new Date().getFullYear()} Santiago Lobo</span>
             </div>
 
@@ -142,7 +142,7 @@ export default function Footer() {
             {showBackToTop && (
               <button
                 onClick={scrollToTop}
-                className="flex items-center gap-1.5 text-xs text-gray-400 dark:text-gray-500 hover:text-teal-400 dark:hover:text-teal-400 transition-colors duration-200 cursor-pointer"
+                className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-gray-500 hover:text-teal-600 dark:hover:text-teal-400 transition-colors duration-200 cursor-pointer"
                 aria-label="Back to top"
               >
                 <span>Back to top</span>

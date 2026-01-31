@@ -2,6 +2,7 @@
 
 import DomeGallery from "@/components/blocks/DomeGallery/DomeGallery";
 import CircularGallery from "@/components/blocks/CircularGallery/CircularGallery";
+import { useColorScheme } from "@/hooks/useColorScheme";
 import { useMemo, useState, useEffect } from "react";
 import {
   getCloudinaryImageUrl,
@@ -23,6 +24,7 @@ const DOME_GALLERY_MIN_WIDTH = 1024;
 export default function About() {
   const [showDomeGallery, setShowDomeGallery] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const colorScheme = useColorScheme();
 
   useEffect(() => {
     setMounted(true);
@@ -113,7 +115,7 @@ export default function About() {
         <div className="flex flex-col w-full max-w-xl lg:max-w-none lg:w-[50%] xl:w-[52%] 2xl:w-[50%] items-start justify-start gap-2 sm:gap-3 md:gap-4">
           <div className="flex flex-row items-center justify-start gap-2 sm:gap-3">
             <div className="divider w-12 sm:w-14 md:w-16" />
-            <p className="text-base sm:text-lg md:text-xl font-medium text-teal-800">
+            <p className="text-base sm:text-lg md:text-xl font-medium text-teal-700 dark:text-teal-800">
               About Me
             </p>
           </div>
@@ -121,13 +123,13 @@ export default function About() {
             <p className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl font-semibold dark:text-white text-black">
               WHO IS
             </p>
-            <p className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl font-semibold text-teal-800">
+            <p className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl font-semibold text-teal-700 dark:text-teal-800">
               SANTIAGO LOBO?
             </p>
           </div>
           <div className="w-full mt-2 sm:mt-3 flex flex-row items-center justify-start gap-3 sm:gap-4 mb-2 sm:mb-3">
-            <div className="h-7 sm:h-8 md:h-9 w-1.5 sm:w-2 bg-teal-800 shrink-0" />
-            <p className="text-base sm:text-lg md:text-xl lg:text-xl italic text-gray-400">
+            <div className="h-7 sm:h-8 md:h-9 w-1.5 sm:w-2 bg-teal-700 dark:bg-teal-800 shrink-0" />
+            <p className="text-base sm:text-lg md:text-xl lg:text-xl italic text-slate-600 dark:text-gray-400">
               &quot;Fulfill your dreams while helping others with a smile.&quot;
             </p>
           </div>
@@ -155,7 +157,7 @@ export default function About() {
           <CircularGallery
             items={galleryItems}
             bend={1}
-            textColor="#ffffff"
+            textColor={colorScheme === "dark" ? "#ffffff" : "#0f766e"}
             borderRadius={0.1}
             font="bold 20px Figtree"
             scrollSpeed={3}

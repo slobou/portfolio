@@ -131,7 +131,7 @@ export default function ProjectCard({
             <div className="avatar-group -space-x-2">
               {collaborators.slice(0, 3).map((collaborator, index) => (
                 <div key={index} className="avatar placeholder">
-                  <div className="relative rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-2 border-white overflow-hidden shrink-0">
+                  <div className={`relative rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-2 overflow-hidden shrink-0 ${isLightBg ? "border-slate-700" : "border-white"}`}>
                     <CollaboratorAvatar
                       src={collaborator.avatar}
                       name={collaborator.name}
@@ -143,7 +143,7 @@ export default function ProjectCard({
               {/* Show +X indicator if there are more than 3 collaborators */}
               {collaborators.length > 3 && (
                 <div className="avatar placeholder">
-                  <div className="relative rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-2 border-white overflow-hidden shrink-0 bg-black text-white flex items-center justify-center">
+                  <div className={`relative rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-2 overflow-hidden shrink-0 flex items-center justify-center ${isLightBg ? "border-slate-700 bg-slate-800 text-white" : "border-white bg-black text-white"}`}>
                     <span className="text-xs sm:text-sm font-extrabold">
                       +{collaborators.length - 3}
                     </span>
