@@ -49,6 +49,7 @@ export default function ProjectCard({
     (backgroundColor.includes("white") ||
       backgroundColor.includes("gray-50") ||
       backgroundColor.includes("bg-white"));
+  const forceWhiteInDark = isLightBg;
 
   const isLogoMode = logo && !isHovered;
 
@@ -63,8 +64,8 @@ export default function ProjectCard({
           useCssColor
             ? ""
             : backgroundType === "gradient"
-              ? `bg-gradient-to-b ${backgroundColor}`
-              : backgroundColor
+            ? `bg-linear-to-b ${backgroundColor}`
+            : `${backgroundColor}${forceWhiteInDark ? " dark:bg-white!" : ""}`
         }`}
         style={
           useCssColor && backgroundType === "solid"
@@ -120,7 +121,11 @@ export default function ProjectCard({
             <div className="avatar-group -space-x-2">
               {collaborators.slice(0, 3).map((collaborator, index) => (
                 <div key={index} className="avatar placeholder">
-                  <div className={`relative rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-2 overflow-hidden shrink-0 ${isLightBg ? "border-slate-700" : "border-white"}`}>
+                  <div
+                    className={`relative rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-2 overflow-hidden shrink-0 ${
+                      isLightBg ? "border-slate-700" : "border-white"
+                    }`}
+                  >
                     <CollaboratorAvatar
                       src={collaborator.avatar}
                       name={collaborator.name}
@@ -131,7 +136,13 @@ export default function ProjectCard({
               ))}
               {collaborators.length > 3 && (
                 <div className="avatar placeholder">
-                  <div className={`relative rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-2 overflow-hidden shrink-0 flex items-center justify-center ${isLightBg ? "border-slate-700 bg-slate-800 text-white" : "border-white bg-black text-white"}`}>
+                  <div
+                    className={`relative rounded-full w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border-2 overflow-hidden shrink-0 flex items-center justify-center ${
+                      isLightBg
+                        ? "border-slate-700 bg-slate-800 text-white"
+                        : "border-white bg-black text-white"
+                    }`}
+                  >
                     <span className="text-xs sm:text-sm font-extrabold">
                       +{collaborators.length - 3}
                     </span>
@@ -146,7 +157,7 @@ export default function ProjectCard({
             onClick={() =>
               (
                 document.getElementById(
-                  `project-modal-${projectId}`,
+                  `project-modal-${projectId}`
                 ) as HTMLDialogElement | null
               )?.showModal()
             }
@@ -156,8 +167,8 @@ export default function ProjectCard({
                   ? "bg-emerald-700 text-white shadow-lg scale-105"
                   : "bg-teal-700 text-white opacity-95"
                 : isHovered
-                  ? "bg-emerald-700 text-white shadow-lg scale-105 font-semibold"
-                  : "bg-teal-700/90 text-white opacity-95"
+                ? "bg-emerald-700 text-white shadow-lg scale-105 font-semibold"
+                : "bg-teal-700/90 text-white opacity-95"
             }`}
           >
             <div className="flex items-center gap-2">
