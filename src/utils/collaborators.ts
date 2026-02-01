@@ -1,8 +1,4 @@
-export interface Collaborator {
-  name: string;
-  avatar: string;
-  linkedInUrl?: string;
-}
+import type { Collaborator } from "@/data/projects";
 
 const SELF_NAME = "Santiago Lobo";
 

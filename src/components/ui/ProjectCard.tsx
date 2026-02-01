@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type { Collaborator } from "@/data/projects";
 import { CollaboratorAvatar } from "./CollaboratorAvatar";
 
 function isCssColor(value: string): boolean {
@@ -11,12 +12,6 @@ function isCssColor(value: string): boolean {
     value.startsWith("hsl(") ||
     value.startsWith("hsla(")
   );
-}
-
-interface Collaborator {
-  name: string;
-  avatar: string;
-  linkedInUrl?: string;
 }
 
 interface ProjectCardProps {
