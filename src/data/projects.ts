@@ -1,4 +1,4 @@
-interface Collaborator {
+export interface Collaborator {
   name: string;
   avatar: string;
   linkedInUrl?: string;

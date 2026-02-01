@@ -8,6 +8,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { projects } from "@/data/projects";
 import type { Project } from "@/data/projects";
 import { resolveProjectImageUrl } from "@/utils/cloudinary";
+import { sortCollaborators } from "@/utils/collaborators";
 
 interface ProjectModalProps {
   projectId: string;
@@ -65,8 +66,17 @@ function ImageCarousel({
 
   if (images.length === 0) return null;
 
+  const hasDistinctCarouselBg =
+    firstSlideBackground &&
+    !firstSlideBackground.includes("white") &&
+    !firstSlideBackground.includes("gray-50");
+
   return (
-    <div className="relative w-full flex-1 min-h-[200px] sm:min-h-0 bg-white dark:bg-base-200 overflow-hidden rounded-t-lg sm:rounded-l-lg sm:rounded-tr-none">
+    <div
+      className={`relative w-full flex-1 min-h-[200px] sm:min-h-0 overflow-hidden rounded-t-lg sm:rounded-l-lg sm:rounded-tr-none ${
+        hasDistinctCarouselBg ? "bg-white dark:bg-base-200" : "bg-white"
+      }`}
+    >
       <div
         ref={emblaRef}
         className="h-full w-full overflow-hidden cursor-grab active:cursor-grabbing touch-pan-y"
@@ -93,7 +103,9 @@ function ImageCarousel({
               <img
                 src={src}
                 alt={i === selectedIndex ? alt : ""}
-                className={`max-h-full w-auto max-w-full object-contain pointer-events-none select-none rounded-t-lg sm:rounded-l-xl sm:rounded-tr-none ${i === 0 && firstSlideLogoClass ? firstSlideLogoClass : ""}`}
+                className={`max-h-full w-auto max-w-full object-contain pointer-events-none select-none rounded-t-lg sm:rounded-l-xl sm:rounded-tr-none ${
+                  i === 0 && firstSlideLogoClass ? firstSlideLogoClass : ""
+                }`}
                 draggable={false}
               />
             </div>
@@ -155,7 +167,9 @@ function ImageCarousel({
               onClick={() => emblaApi?.scrollTo(i)}
               aria-label={`Image ${i + 1}`}
               className={`h-2 rounded-full transition-all duration-200 cursor-pointer ${
-                i === selectedIndex ? "w-6 bg-primary" : "w-2 bg-base-content"
+                i === selectedIndex
+                  ? "w-6 bg-teal-600 dark:bg-primary"
+                  : "w-2 bg-slate-300 dark:bg-base-content"
               }`}
             />
           ))}
@@ -176,7 +190,7 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
 
   const project = useMemo(
     () => projects.find((p) => p.id === projectId),
-    [projectId],
+    [projectId]
   );
 
   if (!project) return null;
@@ -189,6 +203,14 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
   const hasAchievements = Boolean(project.achievements?.length);
   const hasCollaborators = Boolean(project.collaborators?.length);
   const hasTechnologies = Boolean(project.technologies?.length);
+  const carouselLogoBg = project.carouselLogoBackground;
+  const hasDistinctCarouselBg =
+    carouselLogoBg &&
+    !carouselLogoBg.includes("white") &&
+    !carouselLogoBg.includes("gray-50");
+  const carouselBgClass = hasDistinctCarouselBg
+    ? "bg-white dark:bg-base-200"
+    : "bg-white";
 
   const modalContent = (
     <dialog
@@ -196,8 +218,10 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
       className="modal modal-bottom sm:modal-middle"
       onClose={() => setCarouselIndex(0)}
     >
-      <div className="modal-box relative p-0 w-full max-w-[95vw] sm:max-w-[90vw] md:max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl 3xl:max-w-[85rem] 4xl:max-w-[90rem] max-h-[89dvh] sm:max-h-[90vh] overflow-y-auto sm:overflow-hidden flex flex-col sm:flex-row min-h-0 sm:flex-1 mx-2 sm:mx-4">
-        <div className="sm:hidden sticky top-0 z-20 flex justify-end pt-2 pr-2 pb-2 bg-white dark:bg-base-200 min-h-0 shrink-0">
+      <div className="modal-box relative p-0 w-full max-w-[95vw] sm:max-w-[90vw] md:max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl 3xl:max-w-340 4xl:max-w-360 max-h-[89dvh] sm:max-h-[90vh] overflow-y-auto sm:overflow-hidden flex flex-col sm:flex-row min-h-0 sm:flex-1 mx-2 sm:mx-4 rounded-2xl dark:rounded-lg">
+        <div
+          className={`sm:hidden sticky top-0 z-20 flex justify-end pt-2 pr-2 pb-2 min-h-0 shrink-0 ${carouselBgClass}`}
+        >
           <form method="dialog">
             <button
               type="submit"
@@ -220,7 +244,9 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
             </button>
           </form>
         </div>
-        <div className="flex-shrink-0 w-full h-[40vh] min-h-[200px] min-[480px]:min-h-[220px] sm:h-auto sm:min-h-0 sm:w-2/5 md:min-w-[280px] lg:min-w-[320px] bg-white dark:bg-base-200 flex flex-col border-b sm:border-b-0 sm:border-r border-base-300 sm:flex-1 xl:min-w-[400px] 2xl:min-w-[480px] 3xl:min-w-[520px]">
+        <div
+          className={`shrink-0 w-full h-[40vh] min-h-[200px] min-[480px]:min-h-[220px] sm:h-auto sm:min-h-0 sm:w-2/5 md:min-w-[280px] lg:min-w-[320px] flex flex-col border-b sm:border-b-0 sm:border-r border-base-300 sm:flex-1 xl:min-w-[400px] 2xl:min-w-[480px] 3xl:min-w-[520px] ${carouselBgClass}`}
+        >
           <ImageCarousel
             images={images}
             alt={project.title}
@@ -310,7 +336,7 @@ export default function ProjectModal({ projectId }: ProjectModalProps) {
             <div className="mt-4">
               <p className="font-semibold text-base mb-2">Team</p>
               <div className="flex flex-wrap gap-2 sm:flex-nowrap sm:gap-0">
-                {project.collaborators.map((c, i) => (
+                {sortCollaborators(project.collaborators).map((c, i) => (
                   <a
                     key={i}
                     href={c.linkedInUrl}
